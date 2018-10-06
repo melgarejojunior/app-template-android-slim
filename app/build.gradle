@@ -34,19 +34,9 @@ android {
         multiDexEnabled true
     }
 
-    signingConfigs {
-        release {
-            keyAlias 'agrobrazil'
-            keyPassword 'kDBqmDq6xC7wTMXU'
-            storeFile file('../keystore/keystore.jks')
-            storePassword 'kDBqmDq6xC7wTMXU'
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "API_ENDPOINT", "\"$rootProject.ext.apiRelease\""
             buildConfigField "String", "API_VERSION", "\"$rootProject.ext.apiVersion\""
