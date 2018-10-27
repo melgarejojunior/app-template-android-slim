@@ -22,7 +22,6 @@ import java.text.DateFormat
 
 object ApiClient {
 
-    private const val API_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
     private const val PLATFORM_CONSTANT = "android"
     private const val apiEndpoint = BuildConfig.API_ENDPOINT + BuildConfig.API_VERSION
     private lateinit var retrofit: Retrofit

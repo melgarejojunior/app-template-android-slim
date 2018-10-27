@@ -13,7 +13,7 @@ buildscript {
         apiStaging = "http://staging.api.apptemplate.com.br/"
         apiVersion = "v1/"
         // Sdk and tools
-        buildToolsVersion = '28.0.2'
+        buildToolsVersion = '28.0.3'
         compileSdkVersion = 28
         minSdkVersion = 21
         targetSdkVersion = 28
@@ -21,8 +21,8 @@ buildscript {
         // App dependencies
         daggerVersion = '2.15'
         glideVersion = '4.4.0'
-        gradleVersion = '3.2.0'
-        kotlinVersion = '1.2.60'
+        gradleVersion = '3.2.1'
+        kotlinVersion = '1.2.71'
         supportVersion = '28.0.0'
         roomVersion = '1.1.1'
         archLifecycleVersion = '1.1.1'

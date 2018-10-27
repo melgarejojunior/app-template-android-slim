@@ -23,7 +23,6 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-
     defaultConfig {
         applicationId "br.com.melgarejo.apptemplateslim"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -86,7 +85,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlinVersion"
 
     // Kotlin Reflection
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.2.51"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.2.71"
 
     // multidex
     implementation 'com.android.support:multidex:1.0.3'
