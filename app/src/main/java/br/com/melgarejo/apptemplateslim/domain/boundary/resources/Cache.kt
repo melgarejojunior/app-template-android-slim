@@ -1,4 +1,4 @@
-package br.com.melgarejo.apptemplateslim.domain
+package br.com.melgarejo.apptemplateslim.domain.boundary.resources
 
 import java.lang.reflect.Type
 

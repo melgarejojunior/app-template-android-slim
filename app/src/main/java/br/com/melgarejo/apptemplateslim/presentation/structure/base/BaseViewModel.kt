@@ -4,11 +4,15 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.NavData
 import br.com.melgarejo.apptemplateslim.presentation.structure.arch.Event
+import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.NavData
+import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
+import br.com.melgarejo.apptemplateslim.presentation.util.ErrorHandler
+import br.com.melgarejo.apptemplateslim.presentation.util.viewmodels.DialogData
+import br.com.melgarejo.apptemplateslim.presentation.util.viewmodels.Placeholder
 
 
-open class BaseViewModel: LifecycleObserver, ViewModel() {
+open class BaseViewModel : LifecycleObserver, ViewModel() {
     val goTo: LiveData<Event<NavData>> get() = goToLiveData
     val dialog: LiveData<Event<DialogData>> get() = dialogLiveData
     val toast: LiveData<Event<String>> get() = toastLiveData
@@ -18,6 +22,7 @@ open class BaseViewModel: LifecycleObserver, ViewModel() {
     private val dialogLiveData = MutableLiveData<Event<DialogData>>()
     private val placeholderLiveData = MutableLiveData<Placeholder>()
     private val toastLiveData = MutableLiveData<Event<String>>()
+    private val errorHandler = ServiceLocator.getInstance()?.get(ErrorHandler::class) as ErrorHandler
 
     fun setPlaceholder(placeholder: Placeholder) {
         placeholderLiveData.postValue(placeholder)

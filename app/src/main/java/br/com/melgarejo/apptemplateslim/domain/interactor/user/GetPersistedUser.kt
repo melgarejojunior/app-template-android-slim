@@ -5,7 +5,7 @@ import br.com.melgarejo.apptemplateslim.domain.entity.User
 import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
 
 
-class GetPersistedUser() {
+class GetPersistedUser {
     fun execute(): User? {
         return try {
             ServiceLocator.getInstance()?.run {

@@ -31,10 +31,18 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.dashboard.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionbar"
             android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".presentation.login.LoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionbar.TranslucentStatusBar.Login"
+            android:windowSoftInputMode="adjustPan" />
+
     </application>
 
 </manifest>
