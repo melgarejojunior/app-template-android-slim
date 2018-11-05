@@ -25,6 +25,7 @@ class AndroidStringProvider(context: Context) : StringsProvider {
     override val errorNotFound: String get() = res(R.string.error_not_found)
     override val errorServerInternal: String get() = res(R.string.error_server_internal)
     override val errorTimeout: String get() = res(R.string.error_timeout)
+    override val waitForResult: String get() = res(R.string.global_wait)
 
 
     override fun errorUnprocessable(errors: String) = context.getString(R.string.error_unprocessable, errors)

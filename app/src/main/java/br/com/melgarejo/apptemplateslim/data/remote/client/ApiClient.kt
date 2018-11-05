@@ -30,8 +30,8 @@ object ApiClient {
 
     private val apiServices: ApiService get() = apiServiceSingleton ?: buildApiServices()
 
-    fun signIn(email: String, password: String, token: String): Single<ApiUser> {
-        return makeRequest(apiServices.signIn(email, password, token, PLATFORM_CONSTANT))
+    fun signIn(email: String, password: String): Single<ApiUser> {
+        return makeRequest(apiServices.signIn(email, password))
     }
 
     fun signInWithFacebook(accessToken: String): Single<ApiUser> {
@@ -40,7 +40,7 @@ object ApiClient {
 
     fun signUp(fields: Map<String, String?>): Single<ApiUser> {
         return Single.just(fields).map { buildSignUpMultipartBody(it) }
-            .flatMap { makeRequest(apiServices.signUp(it)) }
+                .flatMap { makeRequest(apiServices.signUp(it)) }
     }
 
     fun sendPasswordRecovery(email: String): Completable {
@@ -57,18 +57,18 @@ object ApiClient {
     private fun buildApiServices(): ApiService {
         val okHttpClientBuilder = okHttpClientBuilder()
         retrofit = Retrofit.Builder()
-            .client(okHttpClientBuilder.build())
-            .baseUrl(apiEndpoint)
-            .addConverterFactory(
-                GsonConverterFactory.create(
-                    GsonBuilder()
-                        .serializeNulls()
-                        .setDateFormat(DateFormat.FULL)
-                        .create()
+                .client(okHttpClientBuilder.build())
+                .baseUrl(apiEndpoint)
+                .addConverterFactory(
+                        GsonConverterFactory.create(
+                                GsonBuilder()
+                                        .serializeNulls()
+                                        .setDateFormat(DateFormat.FULL)
+                                        .create()
+                        )
                 )
-            )
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
 
         with(retrofit.create(ApiService::class.java)) {
             apiServiceSingleton = this
@@ -85,7 +85,7 @@ object ApiClient {
     }
 
     private fun resolveLevelInterceptor() =
-        if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+            if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
     private fun <T> verifyResponseException(): SingleTransformer<Response<T>, Response<T>> {
         return SingleTransformer { upstream ->
@@ -118,14 +118,14 @@ object ApiClient {
 
     private fun <T> makeRequest(request: Single<Response<T>>): Single<T> {
         return request.compose(verifyResponseException())
-            .compose(verifyRequestException())
-            .compose(unwrap())
+                .compose(verifyRequestException())
+                .compose(unwrap())
     }
 
     private fun <T> justVerifyErrors(request: Single<Response<T>>): Completable {
         return request.compose(verifyResponseException())
-            .compose(verifyRequestException())
-            .toCompletable()
+                .compose(verifyRequestException())
+                .toCompletable()
     }
 
     private fun buildSignUpMultipartBody(fields: Map<String, String?>): MultipartBody {
@@ -135,9 +135,9 @@ object ApiClient {
                 if (value == null) continue
                 val file = File(value)
                 builder.addFormDataPart(
-                    key,
-                    file.name,
-                    RequestBody.create(MediaType.parse("image/*"), file)
+                        key,
+                        file.name,
+                        RequestBody.create(MediaType.parse("image/*"), file)
                 )
             } else {
                 value?.let { builder.addFormDataPart(key, value) }

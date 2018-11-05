@@ -9,9 +9,9 @@ import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observe
 
 class SplashActivity : BaseActivity() {
 
-    override val sl: ServiceLocator get() = ServiceLocator.getInstance(this.applicationContext)
     override val baseViewModel: BaseViewModel get() = viewModel
 
+    private val sl: ServiceLocator get() = ServiceLocator.getInstance(this.applicationContext)
     private lateinit var viewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {

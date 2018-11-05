@@ -28,6 +28,7 @@ buildscript {
         archLifecycleVersion = '1.1.1'
         pagingLibVersion = '1.0.1'
         crashlyticsVersion = '1.25.4'
+        rxVersion = '2.1.0'
     }
     repositories {
         google()

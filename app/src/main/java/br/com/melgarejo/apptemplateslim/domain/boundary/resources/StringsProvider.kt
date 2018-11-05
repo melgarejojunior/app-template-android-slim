@@ -17,6 +17,8 @@ interface StringsProvider {
     val errorNotFound: String
     val errorServerInternal: String
     val errorTimeout: String?
+    val waitForResult: String
+
 
     fun errorUnprocessable(errors: String): String
 

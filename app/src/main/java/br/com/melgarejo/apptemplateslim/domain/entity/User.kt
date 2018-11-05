@@ -3,7 +3,7 @@ package br.com.melgarejo.apptemplateslim.domain.entity
 import java.io.Serializable
 
 data class User(
-    var id: String? = null,
+    var id: Long? = null,
     var name: String? = null,
     var phone: String? = null,
     var email: String? = null,
