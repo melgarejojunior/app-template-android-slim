@@ -19,7 +19,7 @@ class SplashViewModel(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private fun checkUser() {
-        if (getPersistedUser.execute() != null) {
+        if (getPersistedUser.execute() == null) {
             goToLoginLiveData.postValue(true)
         } else {
             goToMainLiveData.postValue(true)
