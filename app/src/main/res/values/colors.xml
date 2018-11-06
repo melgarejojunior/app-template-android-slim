@@ -23,8 +23,7 @@
 
     <color name="primary">#E91E63</color>
     <color name="primary_dark">#b81b5b</color>
-    <color name="accent">@color/white</color>
-    <color name="background">#4C95E2</color>
+    <color name="accent">@color/green_dark</color>
     <color name="controlNormal">@color/black_alpha30</color>
     <color name="controlNormalLogin">@color/gray58</color>
     <color name="colorLightTextPrimary">@color/white</color>

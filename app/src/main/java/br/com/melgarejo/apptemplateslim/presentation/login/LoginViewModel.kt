@@ -11,9 +11,9 @@ import br.com.melgarejo.apptemplateslim.domain.interactor.user.InvalidFieldsExce
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignIn
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignInWithFacebook
 import br.com.melgarejo.apptemplateslim.domain.util.SchedulerProvider
+import br.com.melgarejo.apptemplateslim.presentation.password.recover.RecoverPasswordNavData
 import br.com.melgarejo.apptemplateslim.presentation.structure.arch.Event
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
-import br.com.melgarejo.apptemplateslim.presentation.util.ErrorHandler
 import br.com.melgarejo.apptemplateslim.presentation.util.viewmodels.DialogData
 import io.reactivex.disposables.Disposable
 
@@ -22,8 +22,7 @@ class LoginViewModel constructor(
         private val signIn: SignIn,
         private val signInWithFacebook: SignInWithFacebook,
         private val schedulerProvider: SchedulerProvider,
-        private val strings: StringsProvider,
-        private val errorHandler: ErrorHandler
+        private val strings: StringsProvider
 ) : BaseViewModel() {
 
     val showEmailFieldError: LiveData<Event<Boolean>> get() = showEmailFieldErrorLiveData
@@ -60,14 +59,18 @@ class LoginViewModel constructor(
 
     fun onRecoverPasswordButtonClick() {
         if (signInDisposable == null) {
-//            super.goTo(RecoverPasswordNavData)
+            super.goTo(RecoverPasswordNavData())
         } else {
             showWaitForResultToast()
         }
     }
 
-    private fun showWaitForResultToast() {
-        super.setToast(strings.waitForResult)
+    fun onEmailChanged(email: String) {
+        this.email = email
+    }
+
+    fun onPasswordChanged(password: String) {
+        this.password = password
     }
 
     fun onShowFacebookSuccess(facebookResult: FacebookResult) {
@@ -92,6 +95,10 @@ class LoginViewModel constructor(
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     private fun onViewDestroyed() {
         disposeSignIn()
+    }
+
+    private fun showWaitForResultToast() {
+        super.setToast(strings.waitForResult)
     }
 
     private fun startSignIn() {
@@ -149,7 +156,7 @@ class LoginViewModel constructor(
                         ?: throwable.message ?: strings.errorUnknown, null, null, null, null))
             }
         } else {
-            super.setDialog(errorHandler.getDialogData(throwable, retryAction, null))
+            super.setDialog(throwable, retryAction, null)
         }
     }
 
@@ -164,13 +171,5 @@ class LoginViewModel constructor(
             InvalidFieldsException.EMAIL -> showEmailFieldErrorLiveData.postValue(Event(true))
             InvalidFieldsException.PASSWORD -> showPasswordFieldErrorLiveData.postValue(Event(true))
         }
-    }
-
-    fun onEmailChanged(email: String) {
-        this.email = email
-    }
-
-    fun onPasswordChanged(password: String) {
-        this.password = password
     }
 }

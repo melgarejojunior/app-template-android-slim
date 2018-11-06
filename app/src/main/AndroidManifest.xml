@@ -43,6 +43,13 @@
             android:theme="@style/AppTheme.NoActionbar.TranslucentStatusBar.Login"
             android:windowSoftInputMode="adjustPan" />
 
+        <activity
+            android:name=".presentation.password.recover.RecoverPasswordActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/activity_recover_password"
+            android:screenOrientation="portrait" />
+
+
     </application>
 
     <!-- required by facebook -->

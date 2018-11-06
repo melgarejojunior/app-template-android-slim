@@ -14,6 +14,7 @@ import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
 import br.com.melgarejo.apptemplateslim.presentation.util.ViewUtils
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observeChanges
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observeEvent
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.setVisible
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.showDialog
 import br.com.melgarejo.apptemplateslim.presentation.util.viewmodels.DialogData
 import com.facebook.CallbackManager
@@ -70,7 +71,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun onNextProgressIndicator(shouldShow: Boolean?) {
-        shouldShow?.let { }
+        shouldShow?.let { binding.includedLoading.root.setVisible(shouldShow) }
     }
 
     private fun onNextShowMain(shouldShow: Boolean?) {

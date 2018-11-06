@@ -178,11 +178,9 @@
 
             </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/loading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+            <include
+                android:id="@+id/includedLoading"
+                layout="@layout/loading_placeholder"
                 android:visibility="gone" />
         </FrameLayout>
 

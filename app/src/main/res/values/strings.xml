@@ -47,4 +47,6 @@
     <string name="activity_recover_password_success">Verifique a sua caixa de entrada e siga as instruções do email para recuperar sua senha.</string>
     <string name="error_facebook_sdk">O Facebook não nos devolveu nenhuma informação para realizar o login. Por favor, tente novamente.</string>
     <string name="error_facebook_denied_permissions">É necessário aceitar todas as permissões no Facebook para realizar o login. Por favor, tente novamente.</string>
+    <string name="global_send">Enviar</string>
+    <string name="global_pick_avatar_using">Escolha imagem usando:</string>
 </resources>

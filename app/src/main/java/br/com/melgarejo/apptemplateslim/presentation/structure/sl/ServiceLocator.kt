@@ -10,11 +10,13 @@ import br.com.melgarejo.apptemplateslim.domain.boundary.resources.Cache
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.Logger
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.StringsProvider
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.GetPersistedUser
+import br.com.melgarejo.apptemplateslim.domain.interactor.user.RecoverPassword
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignIn
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignInWithFacebook
 import br.com.melgarejo.apptemplateslim.domain.util.SchedulerProvider
 import br.com.melgarejo.apptemplateslim.presentation.landing.SplashViewModel
 import br.com.melgarejo.apptemplateslim.presentation.login.LoginViewModel
+import br.com.melgarejo.apptemplateslim.presentation.password.recover.RecoverPasswordViewModel
 import br.com.melgarejo.apptemplateslim.presentation.util.ErrorHandler
 import br.com.melgarejo.apptemplateslim.presentation.util.resources.AndroidLogger
 import br.com.melgarejo.apptemplateslim.presentation.util.resources.AndroidStringProvider
@@ -67,6 +69,7 @@ open class DefaultServiceLocator(private val context: Context) : ServiceLocator 
         /*Interactor*/
             SignIn::class -> SignIn(get(UserRepository::class) as UserRepository)
             SignInWithFacebook::class -> SignInWithFacebook(get(UserRepository::class) as UserRepository)
+            RecoverPassword::class -> RecoverPassword(get(UserRepository::class) as UserRepository)
         /* ViewModels*/
             SplashViewModel::class -> SplashViewModel(get(GetPersistedUser::class) as GetPersistedUser)
             LoginViewModel::class ->
@@ -74,8 +77,13 @@ open class DefaultServiceLocator(private val context: Context) : ServiceLocator 
                         get(SignIn::class) as SignIn,
                         get(SignInWithFacebook::class) as SignInWithFacebook,
                         schedulerProvider,
-                        strings,
-                        get(ErrorHandler::class) as ErrorHandler
+                        strings
+                )
+            RecoverPasswordViewModel::class ->
+                RecoverPasswordViewModel(
+                        get(RecoverPassword::class) as RecoverPassword,
+                        schedulerProvider,
+                        strings
                 )
             else -> throw InstanceNotFoundException("$type was not found by ServiceLocator.class")
         }

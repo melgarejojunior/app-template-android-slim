@@ -29,6 +29,6 @@ class DefaultUserRepository(
     }
 
     override fun sendPasswordRecovery(email: String): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return ApiClient.sendPasswordRecovery(email)
     }
 }
