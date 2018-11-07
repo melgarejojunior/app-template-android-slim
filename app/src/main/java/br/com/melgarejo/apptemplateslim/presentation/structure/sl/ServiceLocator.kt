@@ -1,8 +1,6 @@
 package br.com.melgarejo.apptemplateslim.presentation.structure.sl
 
 import android.content.Context
-import br.com.melgarejo.apptemplateslim.data.remote.mapper.ApiUserToUserMapper
-import br.com.melgarejo.apptemplateslim.data.remote.mapper.Mapper
 import br.com.melgarejo.apptemplateslim.data.remote.repository.DefaultUserRepository
 import br.com.melgarejo.apptemplateslim.data.storage.PreferencesCache
 import br.com.melgarejo.apptemplateslim.domain.boundary.UserRepository
@@ -41,16 +39,18 @@ interface ServiceLocator {
     val schedulerProvider: SchedulerProvider
 
     fun get(type: KClass<*>): Any
-
-    fun <I, O> getMapper(mapperType: MapperType): Mapper<I, O>
 }
 
 open class DefaultServiceLocator(private val context: Context) : ServiceLocator {
 
     override val cache: Cache
         get() {
-            if (singletonCache == null) singletonCache = PreferencesCache.init(context)
-            return singletonCache!!
+            singletonCache?.let { cache -> return cache }
+            return PreferencesCache.init(context).let { cache ->
+                singletonCache = cache
+                singletonCache
+                        ?: throw RuntimeException("Unknown return singletonCache, because is null")
+            }
         }
     override val logger: Logger get() = AndroidLogger(context)
     override val strings: StringsProvider get() = AndroidStringProvider(context)
@@ -65,7 +65,7 @@ open class DefaultServiceLocator(private val context: Context) : ServiceLocator 
             ErrorHandler::class -> ErrorHandler(strings, logger, loginAction)
             GetPersistedUser::class -> GetPersistedUser()
         /*Repositories*/
-            UserRepository::class -> DefaultUserRepository(getMapper(MapperType.API_USER_TO_USER))
+            UserRepository::class -> DefaultUserRepository()
         /*Interactor*/
             SignIn::class -> SignIn(get(UserRepository::class) as UserRepository)
             SignInWithFacebook::class -> SignInWithFacebook(get(UserRepository::class) as UserRepository)
@@ -87,11 +87,5 @@ open class DefaultServiceLocator(private val context: Context) : ServiceLocator 
                 )
             else -> throw InstanceNotFoundException("$type was not found by ServiceLocator.class")
         }
-    }
-
-    override fun <I, O> getMapper(mapperType: MapperType): Mapper<I, O> {
-        return when (mapperType) {
-            MapperType.API_USER_TO_USER -> ApiUserToUserMapper()
-        } as Mapper<I, O>
     }
 }
