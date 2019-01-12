@@ -1,6 +1,6 @@
 package br.com.melgarejo.apptemplateslim.data.remote.mapper
 
-interface Mapper<in I, out O> {
-    fun transform(t: I): O
-    fun transform(items: List<I>?): List<O>?
+abstract class Mapper<in I, out O> {
+    abstract fun transform(t: I): O
+    fun transform(items: List<I>?): List<O>? = items?.map(::transform)
 }
