@@ -9,9 +9,12 @@ buildscript {
         versionCode = 1
         versionName = "1.0"
 //        TODO CHANGE IT WHEN READY
+//        apiRelease = "https://api.apptemplate.com.br/"
+//        apiStaging = "http://staging.api.apptemplate.com.br/"
         apiRelease = "https://api.apptemplate.com.br/"
-        apiStaging = "http://staging.api.apptemplate.com.br/"
-        apiVersion = "v1/"
+        apiStaging = "http://192.168.0.17:3000"
+//        apiVersion = "v1/"
+        apiVersion = "/"
         // Sdk and tools
         buildToolsVersion = '28.0.3'
         compileSdkVersion = 28
