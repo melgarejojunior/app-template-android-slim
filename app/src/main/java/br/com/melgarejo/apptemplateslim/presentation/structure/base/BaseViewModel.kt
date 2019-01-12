@@ -1,8 +1,10 @@
 package br.com.melgarejo.apptemplateslim.presentation.structure.base
 
+import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.OnLifecycleEvent
 import android.arch.lifecycle.ViewModel
 import br.com.melgarejo.apptemplateslim.presentation.structure.arch.Event
 import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.NavData
@@ -10,7 +12,7 @@ import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
 import br.com.melgarejo.apptemplateslim.presentation.util.ErrorHandler
 import br.com.melgarejo.apptemplateslim.presentation.util.viewmodels.DialogData
 import br.com.melgarejo.apptemplateslim.presentation.util.viewmodels.Placeholder
-
+import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel : LifecycleObserver, ViewModel() {
     val goTo: LiveData<Event<NavData>> get() = goToLiveData
@@ -22,7 +24,10 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
     private val dialogLiveData = MutableLiveData<Event<DialogData>>()
     private val placeholderLiveData = MutableLiveData<Placeholder>()
     private val toastLiveData = MutableLiveData<Event<String>>()
-    private val errorHandler = ServiceLocator.getInstance()?.get(ErrorHandler::class) as ErrorHandler
+    private val errorHandler =
+        ServiceLocator.getInstance()?.get(ErrorHandler::class) as ErrorHandler
+
+    private val disposables: CompositeDisposable = CompositeDisposable()
 
     fun setPlaceholder(placeholder: Placeholder) {
         placeholderLiveData.postValue(placeholder)
@@ -41,7 +46,7 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
     }
 
     fun setDialog(
-            throwable: Throwable, retryAction: (() -> Unit)? = null, onDismiss: (() -> Unit)? = null
+        throwable: Throwable, retryAction: (() -> Unit)? = null, onDismiss: (() -> Unit)? = null
     ) {
         setDialog(errorHandler.getDialogData(throwable, retryAction, onDismiss))
     }
@@ -50,4 +55,8 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
         goToLiveData.postValue(Event(navData))
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    private fun onDestroy() {
+        disposables.dispose()
+    }
 }

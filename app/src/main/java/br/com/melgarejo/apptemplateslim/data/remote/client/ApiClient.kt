@@ -30,7 +30,7 @@ object ApiClient {
 
     private val apiServices: ApiService get() = apiServiceSingleton ?: buildApiServices()
 
-    fun signIn(email: String, password: String, token: String): Single<ApiUser> {
+    fun signIn(email: String, password: String, token: String?): Single<ApiUser> {
         return makeRequest(apiServices.signIn(email, password, token, PLATFORM_CONSTANT))
     }
 

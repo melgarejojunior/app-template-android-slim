@@ -11,7 +11,7 @@ interface UserRepository {
     }
 
     fun getCurrent(): Single<User>
-    fun signIn(): Single<User>
+    fun signIn(email: String, password:String , token: String?): Single<User>
     fun signInWithFacebook(): Single<User>
     fun signUp(): Single<User>
     fun sendPasswordRecovery(email: String): Completable

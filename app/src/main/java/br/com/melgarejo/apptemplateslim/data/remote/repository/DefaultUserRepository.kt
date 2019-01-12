@@ -1,18 +1,21 @@
 package br.com.melgarejo.apptemplateslim.data.remote.repository
 
+import br.com.melgarejo.apptemplateslim.data.remote.client.ApiClient
 import br.com.melgarejo.apptemplateslim.domain.boundary.UserRepository
 import br.com.melgarejo.apptemplateslim.domain.entity.User
 import io.reactivex.Completable
 import io.reactivex.Single
 
-
-class DefaultUserRepository() : UserRepository {
+class DefaultUserRepository : UserRepository {
     override fun getCurrent(): Single<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun signIn(): Single<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun signIn(email: String, password: String, token: String?): Single<User> {
+        return ApiClient.signIn(email, password, token).map {
+            //            TODO(Change this one)
+            User(it.id, it.name, it.phone, it.email, it.token, it.avatar?.medium, it.avatar?.thumb)
+        }
     }
 
     override fun signInWithFacebook(): Single<User> {
