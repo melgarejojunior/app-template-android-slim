@@ -9,6 +9,7 @@ import br.com.melgarejo.apptemplateslim.databinding.ActivityLoginBinding
 import br.com.melgarejo.apptemplateslim.domain.extensions.then
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseActivity
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
+import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.Navigator
 import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observe
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observeChanges
@@ -37,6 +38,7 @@ class LoginActivity : BaseActivity() {
         super.subscribeUi()
         viewModel.showEmailFieldError.observe(this, this::onNextEmailError)
         viewModel.showPasswordFieldError.observe(this, this::onNextPasswordError)
+        viewModel.goToMain.observe(this, this::onNextGoToMain)
     }
 
     private fun setupUi() {
@@ -47,6 +49,10 @@ class LoginActivity : BaseActivity() {
         binding.recoverPasswordButton.setOnClickListener(viewModel::onRecoverPasswordClicked)
         binding.registerButton.setOnClickListener(viewModel::onSignUpClicked)
         binding.submitButton.setOnClickListener(viewModel::onSubmitClicked)
+    }
+
+    private fun onNextGoToMain(shouldGo: Boolean?) {
+        shouldGo?.let { Navigator.goToMain(this, true) }
     }
 
     private fun onNextEmailError(shouldShowError: Boolean?) {

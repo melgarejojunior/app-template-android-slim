@@ -19,9 +19,11 @@ class LoginViewModel(
 
     val showEmailFieldError: LiveData<Boolean> get() = showEmailFieldErrorLiveData
     val showPasswordFieldError: LiveData<Boolean> get() = showPasswordFieldErrorLiveData
+    val goToMain: LiveData<Boolean> get() = goToMainLiveData
 
     private val showEmailFieldErrorLiveData: MutableLiveData<Boolean> = MutableLiveData()
     private val showPasswordFieldErrorLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    private val goToMainLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
     private var form = LoginForm()
     private var signInDisposable: Disposable? = null
@@ -55,6 +57,7 @@ class LoginViewModel(
                 .subscribeBy(this::onFailure) {
                     showEmailFieldErrorLiveData.value = false
                     showPasswordFieldErrorLiveData.value = false
+                    goToMainLiveData.value = true
                 }
     }
 

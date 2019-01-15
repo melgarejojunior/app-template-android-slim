@@ -30,10 +30,6 @@ class DefaultUserRepository(private val cache: Cache) : UserRepository {
     }
 
     override fun cacheUser(user: User) {
-        cache.set(USER_CACHE_KEY, user)
-    }
-
-    companion object {
-        private const val USER_CACHE_KEY = "USER_CACHE_KEY"
+        cache.set(UserRepository.CURRENT_USER, user)
     }
 }
