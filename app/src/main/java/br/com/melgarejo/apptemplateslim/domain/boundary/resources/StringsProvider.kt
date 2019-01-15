@@ -16,7 +16,10 @@ interface StringsProvider {
     val globalNo: String
     val errorNotFound: String
     val errorServerInternal: String
-    val errorTimeout: String?
+    val errorTimeout: String
+    val waitForResult: String
+    val activityRecoverPassword: String
+    val activityRecoverPasswordSuccess: String
 
     fun errorUnprocessable(errors: String): String
 

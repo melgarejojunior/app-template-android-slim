@@ -206,7 +206,7 @@
 
             <include
                 android:id="@+id/placeholder"
-                layout="@layout/view_placeholder" />
+                layout="@layout/loading_placeholder" />
         </FrameLayout>
 
     </ScrollView>

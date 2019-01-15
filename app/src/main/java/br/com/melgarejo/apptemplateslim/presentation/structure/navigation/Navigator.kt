@@ -3,6 +3,8 @@ package br.com.melgarejo.apptemplateslim.presentation.structure.navigation
 import android.content.Context
 import br.com.melgarejo.apptemplateslim.presentation.dashboard.MainActivity
 import br.com.melgarejo.apptemplateslim.presentation.login.LoginActivity
+import br.com.melgarejo.apptemplateslim.presentation.password.RecoverPasswordActivity
+import br.com.melgarejo.apptemplateslim.presentation.password.RecoverPasswordNavData
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.shouldClearTask
 
 
@@ -10,11 +12,12 @@ class Navigator {
     companion object {
         fun goTo(context: Context?, navData: NavData) {
             context?.let {
-                //                val intent = when (navData) {
-//                    //                TODO(Add activity call here)
-//                    else -> throw RuntimeException("Don't know where should it go to. NavData ${navData.javaClass.simpleName}")
-//                }
-//                it.startActivity(intent)
+                val intent = when (navData) {
+//                                    TODO(Add activity call here)
+                    is RecoverPasswordNavData -> RecoverPasswordActivity.createIntent(it)
+                    else -> throw RuntimeException("Don't know where should it go to. NavData ${navData.javaClass.simpleName}")
+                }
+                it.startActivity(intent)
             }
         }
 

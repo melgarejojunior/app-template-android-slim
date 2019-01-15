@@ -7,6 +7,7 @@ import br.com.melgarejo.apptemplateslim.domain.extensions.defaultPlaceholders
 import br.com.melgarejo.apptemplateslim.domain.extensions.defaultSched
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.InvalidFieldsException
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignIn
+import br.com.melgarejo.apptemplateslim.presentation.password.RecoverPasswordNavData
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
@@ -41,7 +42,9 @@ class LoginViewModel(
 
     fun onGoogleButtonClicked() {}
 
-    fun onRecoverPasswordClicked() {}
+    fun onRecoverPasswordClicked() {
+        goTo(RecoverPasswordNavData())
+    }
 
     fun onSignUpClicked() {}
 

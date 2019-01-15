@@ -47,4 +47,6 @@
     <string name="error_facebook_denied_permissions">É necessário aceitar todas as permissões no Facebook para realizar o login. Por favor, tente novamente.</string>
     <string name="error_invalid_email">Email Inválido</string>
     <string name="error_invalid_password">Senha Inválida</string>
+    <string name="global_send">Enviar</string>
+    <string name="global_pick_avatar_using">Escolher imagem usando:</string>
 </resources>

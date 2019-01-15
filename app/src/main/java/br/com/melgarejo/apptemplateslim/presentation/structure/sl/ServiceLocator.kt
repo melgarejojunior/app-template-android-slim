@@ -9,9 +9,11 @@ import br.com.melgarejo.apptemplateslim.domain.boundary.resources.Logger
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.SchedulerProvider
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.StringsProvider
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.GetPersistedUser
+import br.com.melgarejo.apptemplateslim.domain.interactor.user.RecoverPassword
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignIn
 import br.com.melgarejo.apptemplateslim.presentation.landing.SplashViewModel
 import br.com.melgarejo.apptemplateslim.presentation.login.LoginViewModel
+import br.com.melgarejo.apptemplateslim.presentation.password.RecoverPasswordViewModel
 import br.com.melgarejo.apptemplateslim.presentation.util.ErrorHandler
 import br.com.melgarejo.apptemplateslim.presentation.util.resources.AndroidLogger
 import br.com.melgarejo.apptemplateslim.presentation.util.resources.AndroidStringProvider
@@ -54,17 +56,27 @@ open class DefaultServiceLocator(private val context: Context) : ServiceLocator 
 
     override fun get(type: KClass<*>): Any {
         return when (type) {
-            /* Utils */
+            /***
+             * Utils
+             ***/
             ErrorHandler::class -> ErrorHandler(strings, logger, loginAction)
             StringsProvider::class -> AndroidStringProvider(context)
-            /*Repositories*/
+            /***
+             * Repositories
+             ***/
             UserRepository::class -> DefaultUserRepository(cache)
-            /*Interactors*/
+            /***
+             * Interactors
+             ***/
             GetPersistedUser::class -> GetPersistedUser()
             SignIn::class -> SignIn(get(UserRepository::class) as UserRepository)
-            /* ViewModels*/
+            RecoverPassword::class -> RecoverPassword(get(UserRepository::class) as UserRepository)
+            /***
+             * ViewModels
+             ***/
             SplashViewModel::class -> SplashViewModel(get(GetPersistedUser::class) as GetPersistedUser)
             LoginViewModel::class -> LoginViewModel(get(SignIn::class) as SignIn, schedulerProvider)
+            RecoverPasswordViewModel::class -> RecoverPasswordViewModel(get(RecoverPassword::class) as RecoverPassword, schedulerProvider, strings)
             else -> throw InstanceNotFoundException("$type was not found")
         }
     }
