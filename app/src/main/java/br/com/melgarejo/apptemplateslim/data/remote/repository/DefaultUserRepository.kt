@@ -9,13 +9,8 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 class DefaultUserRepository(private val cache: Cache) : UserRepository {
-    override fun getCurrent(): Single<User> {
-        return try {
-            val user = cache.get<User>(UserRepository.CURRENT_USER, User::class.java)
-            Single.just(user)
-        } catch (e: Cache.NotFoundException) {
-            Single.error(e)
-        }
+    override fun getCurrentFromRemote(): Single<User> {
+        TODO("Not implemented")
     }
 
     override fun signIn(email: String, password: String, token: String?): Single<User> {
