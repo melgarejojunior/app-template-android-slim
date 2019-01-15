@@ -41,10 +41,8 @@ interface ServiceLocator {
 open class DefaultServiceLocator(private val context: Context) : ServiceLocator {
 
     override val cache: Cache
-        get() {
-            if (singletonCache == null) singletonCache = PreferencesCache.init(context)
-            return singletonCache!!
-        }
+        get() = singletonCache ?: PreferencesCache.init(context).also { singletonCache = it }
+
     override val logger: Logger by lazy { AndroidLogger(context) }
 
     override val strings: StringsProvider by lazy { AndroidStringProvider(context) }
