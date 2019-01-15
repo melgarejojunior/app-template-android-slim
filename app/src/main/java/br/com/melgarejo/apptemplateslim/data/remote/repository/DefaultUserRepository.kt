@@ -2,11 +2,12 @@ package br.com.melgarejo.apptemplateslim.data.remote.repository
 
 import br.com.melgarejo.apptemplateslim.data.remote.client.ApiClient
 import br.com.melgarejo.apptemplateslim.domain.boundary.UserRepository
+import br.com.melgarejo.apptemplateslim.domain.boundary.resources.Cache
 import br.com.melgarejo.apptemplateslim.domain.entity.User
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class DefaultUserRepository : UserRepository {
+class DefaultUserRepository(private val cache: Cache) : UserRepository {
     override fun getCurrent(): Single<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -28,5 +29,13 @@ class DefaultUserRepository : UserRepository {
 
     override fun sendPasswordRecovery(email: String): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun cacheUser(user: User) {
+        cache.set(USER_CACHE_KEY, user)
+    }
+
+    companion object {
+        private const val USER_CACHE_KEY = "USER_CACHE_KEY"
     }
 }

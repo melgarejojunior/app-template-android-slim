@@ -15,4 +15,5 @@ interface UserRepository {
     fun signInWithFacebook(): Single<User>
     fun signUp(): Single<User>
     fun sendPasswordRecovery(email: String): Completable
+    fun cacheUser(user: User)
 }
