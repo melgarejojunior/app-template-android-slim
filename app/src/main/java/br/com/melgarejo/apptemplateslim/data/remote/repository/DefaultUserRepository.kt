@@ -10,7 +10,12 @@ import io.reactivex.Single
 
 class DefaultUserRepository(private val cache: Cache) : UserRepository {
     override fun getCurrent(): Single<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return try {
+            val user = cache.get<User>(UserRepository.CURRENT_USER, User::class.java)
+            Single.just(user)
+        } catch (e: Cache.NotFoundException) {
+            Single.error(e)
+        }
     }
 
     override fun signIn(email: String, password: String, token: String?): Single<User> {
