@@ -38,8 +38,8 @@ object ApiClient {
         return makeRequest(apiServices.signInWithFacebook(accessToken))
     }
 
-    fun signUp(fields: Map<String, String?>): Single<ApiUser> {
-        return Single.just(fields).map { buildSignUpMultipartBody(it) }
+    fun signUp(fields: HashMap<String, String?>): Single<ApiUser> {
+        return Single.just(fields).map { buildSignUpMultipartBody(it.toMap()) }
             .flatMap { makeRequest(apiServices.signUp(it)) }
     }
 

@@ -11,9 +11,11 @@ import br.com.melgarejo.apptemplateslim.domain.boundary.resources.StringsProvide
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.GetPersistedUser
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.RecoverPassword
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignIn
+import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignUp
 import br.com.melgarejo.apptemplateslim.presentation.landing.SplashViewModel
 import br.com.melgarejo.apptemplateslim.presentation.login.LoginViewModel
 import br.com.melgarejo.apptemplateslim.presentation.password.RecoverPasswordViewModel
+import br.com.melgarejo.apptemplateslim.presentation.signup.SignUpViewModel
 import br.com.melgarejo.apptemplateslim.presentation.util.ErrorHandler
 import br.com.melgarejo.apptemplateslim.presentation.util.resources.AndroidLogger
 import br.com.melgarejo.apptemplateslim.presentation.util.resources.AndroidStringProvider
@@ -70,13 +72,22 @@ open class DefaultServiceLocator(private val context: Context) : ServiceLocator 
              ***/
             GetPersistedUser::class -> GetPersistedUser()
             SignIn::class -> SignIn(get(UserRepository::class) as UserRepository)
+            SignUp::class -> SignUp(get(UserRepository::class) as UserRepository)
             RecoverPassword::class -> RecoverPassword(get(UserRepository::class) as UserRepository)
             /***
              * ViewModels
              ***/
             SplashViewModel::class -> SplashViewModel(get(GetPersistedUser::class) as GetPersistedUser)
             LoginViewModel::class -> LoginViewModel(get(SignIn::class) as SignIn, schedulerProvider)
-            RecoverPasswordViewModel::class -> RecoverPasswordViewModel(get(RecoverPassword::class) as RecoverPassword, schedulerProvider, strings)
+            RecoverPasswordViewModel::class -> RecoverPasswordViewModel(
+                get(RecoverPassword::class) as RecoverPassword,
+                schedulerProvider,
+                strings
+            )
+            SignUpViewModel::class -> SignUpViewModel(
+                get(SignUp::class) as SignUp,
+                schedulerProvider
+            )
             else -> throw InstanceNotFoundException("$type was not found")
         }
     }

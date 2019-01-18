@@ -6,9 +6,10 @@ import br.com.melgarejo.apptemplateslim.domain.boundary.resources.SchedulerProvi
 import br.com.melgarejo.apptemplateslim.domain.extensions.defaultPlaceholders
 import br.com.melgarejo.apptemplateslim.domain.extensions.defaultSched
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.InvalidFieldsException
+import br.com.melgarejo.apptemplateslim.domain.interactor.user.LoginForm
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignIn
-import br.com.melgarejo.apptemplateslim.presentation.password.RecoverPasswordNavData
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
+import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.NavData
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -43,10 +44,12 @@ class LoginViewModel(
     fun onGoogleButtonClicked() {}
 
     fun onRecoverPasswordClicked() {
-        goTo(RecoverPasswordNavData())
+        goTo(NavData.RecoverPasswordNavData)
     }
 
-    fun onSignUpClicked() {}
+    fun onSignUpClicked() {
+        goTo(NavData.SignUpNavData)
+    }
 
     fun onSubmitClicked() {
         form.useForm(this::submit)?.let { showFieldErrors(it) }

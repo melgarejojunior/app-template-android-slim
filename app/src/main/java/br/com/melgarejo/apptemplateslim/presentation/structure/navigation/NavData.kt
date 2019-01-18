@@ -1,4 +1,8 @@
 package br.com.melgarejo.apptemplateslim.presentation.structure.navigation
 
 
-interface NavData
+sealed class NavData {
+    object MainNavData : NavData()
+    object RecoverPasswordNavData : NavData()
+    object SignUpNavData : NavData()
+}

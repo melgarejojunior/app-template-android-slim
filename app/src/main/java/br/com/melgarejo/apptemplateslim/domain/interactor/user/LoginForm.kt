@@ -1,6 +1,4 @@
-package br.com.melgarejo.apptemplateslim.presentation.login
-
-import br.com.melgarejo.apptemplateslim.domain.interactor.user.InvalidFieldsException
+package br.com.melgarejo.apptemplateslim.domain.interactor.user
 
 
 class LoginForm {
