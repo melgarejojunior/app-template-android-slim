@@ -7,12 +7,12 @@ import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import br.com.melgarejo.apptemplateslim.R
 import br.com.melgarejo.apptemplateslim.databinding.ActivityRegisterBinding
+import br.com.melgarejo.apptemplateslim.domain.interactor.user.InvalidFieldsException
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseActivity
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
+import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.Navigator
 import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
-import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observeChanges
-import br.com.melgarejo.apptemplateslim.presentation.util.extensions.setError
-import br.com.melgarejo.apptemplateslim.presentation.util.extensions.setOnClickListener
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.*
 import br.com.melgarejo.apptemplateslim.presentation.util.mask.InputMask
 
 
@@ -49,7 +49,22 @@ class SignUpActivity : BaseActivity() {
         }
     }
 
-    fun showFieldError(fields: List<Int>) {
+    override fun subscribeUi() {
+        super.subscribeUi()
+        viewModel.errors.observeEvent(this, ::onNextErrors)
+        viewModel.goToMain.observe(this, this::onNextGoToMain)
+
+    }
+
+    private fun onNextGoToMain(shouldGo: Boolean?) {
+        shouldGo?.let { Navigator.goToMain(this, true) }
+    }
+
+    private fun onNextErrors(errors: InvalidFieldsException?) {
+        errors?.getFields()?.let { showFieldError(it.toList()) }
+    }
+
+    private fun showFieldError(fields: List<Int>) {
         fields.forEach { field ->
             getTextInputLayout(field)?.setError(getErrorMessageId(field))
         }

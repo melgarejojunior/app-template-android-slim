@@ -1,19 +1,87 @@
 package br.com.melgarejo.apptemplateslim.presentation.signup
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.SchedulerProvider
+import br.com.melgarejo.apptemplateslim.domain.extensions.defaultSched
+import br.com.melgarejo.apptemplateslim.domain.interactor.user.InvalidFieldsException
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignUp
+import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignUpForm
+import br.com.melgarejo.apptemplateslim.presentation.structure.arch.Event
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.defaultPlaceholders
+import io.reactivex.rxkotlin.subscribeBy
 
 class SignUpViewModel(
-    private val signUp: SignUp,
-    private val schedulerProvider: SchedulerProvider
+        private val signUp: SignUp,
+        private val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
-    fun onNameChanged(name: String) {}
-    fun onEmailChanged(email: String) {}
-    fun onCpfChanged(cpf: String) {}
-    fun onPhoneChanged(phone: String) {}
-    fun onPasswordChanged(password: String) {}
-    fun onPasswordConfirmationChanged(passwordConfirmation: String) {}
-    fun onSubmitClicked() {}
+
+    val errors: LiveData<Event<InvalidFieldsException>> get() = errorsLiveData
+    val goToMain: LiveData<Boolean> get() = goToMainLiveData
+
+    private val errorsLiveData: MutableLiveData<Event<InvalidFieldsException>> = MutableLiveData()
+    private val goToMainLiveData: MutableLiveData<Boolean> = MutableLiveData()
+
+    private val form: SignUpForm = SignUpForm()
+
+    fun onNameChanged(name: String) {
+        form.name = name
+    }
+
+    fun onEmailChanged(email: String) {
+        form.email = email
+    }
+
+    fun onCpfChanged(cpf: String) {
+        form.cpf = cpf
+    }
+
+    fun onPhoneChanged(phone: String) {
+        form.phone = phone
+    }
+
+    fun onPasswordChanged(password: String) {
+        form.password = password
+    }
+
+    fun onPasswordConfirmationChanged(passwordConfirmation: String) {
+        form.passwordConfirmation = passwordConfirmation
+    }
+
+    fun onSubmitClicked() {
+        form.useForm(this::submit)?.let { showFieldErrors(it) }
+    }
+
     fun onAvatarClicked() {}
+
+    private fun submit(email: String,
+                       password: String,
+                       name: String,
+                       cpf: String,
+                       phone: String,
+                       confirmationPassword: String,
+                       avatarPath: String?) {
+        SignUp.Fields(name, email, phone, cpf, password, confirmationPassword, avatarPath)
+                .let { fields ->
+                    signUp.execute(fields)
+                            .defaultSched(schedulerProvider)
+                            .defaultPlaceholders(this::setPlaceholder)
+                            .subscribeBy(this::onFailure) {
+                                goToMainLiveData.value = true
+                            }.also { disposables.add(it) }
+                }
+    }
+
+    private fun showFieldErrors(errors: Throwable) {
+        if (errors is InvalidFieldsException) errorsLiveData.value = Event(errors)
+    }
+
+    private fun onFailure(throwable: Throwable) {
+        if (throwable is InvalidFieldsException) {
+            showFieldErrors(throwable)
+        } else {
+            setDialog(throwable, this::onSubmitClicked)
+        }
+    }
 }

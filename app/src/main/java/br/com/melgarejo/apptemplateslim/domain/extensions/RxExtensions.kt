@@ -16,20 +16,12 @@ fun <T> Single<T>.defaultConsumers(onSubscribeCallback: () -> (Unit), doAfterTer
     return this.doOnSubscribe { onSubscribeCallback.invoke() }.doAfterTerminate({ doAfterTerminatecallback.invoke() })
 }
 
-fun <T> Single<T>.defaultPlaceholders(placeholderPlacerAction: (Placeholder) -> (Unit)): Single<T> {
-    return this.defaultConsumers({ placeholderPlacerAction(Placeholder.Loading()) }, { placeholderPlacerAction(Placeholder.HideAll) })
-}
-
 fun <T> Observable<T>.defaultConsumers(onSubscribeCallback: () -> (Unit), doAfterTerminatecallback: () -> (Unit)): Observable<T> {
     return this.doOnSubscribe { onSubscribeCallback.invoke() }.doAfterTerminate({ doAfterTerminatecallback.invoke() })
 }
 
 fun <T> Observable<T>.defaultSched(schedulerProvider: SchedulerProvider): Observable<T> {
     return this.subscribeOn(schedulerProvider.io()).observeOn(schedulerProvider.main())
-}
-
-fun  <T> Observable<T>.defaultPlaceholders(placeholderPlacerAction: (Placeholder) -> (Unit)): Observable<T> {
-    return this.defaultConsumers({ placeholderPlacerAction(Placeholder.Loading()) }, { placeholderPlacerAction(Placeholder.HideAll) })
 }
 
 fun <T> PublishSubject<T>.defaultSched(schedulerProvider: SchedulerProvider): Observable<T> {

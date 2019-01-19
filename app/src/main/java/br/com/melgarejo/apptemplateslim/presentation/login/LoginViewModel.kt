@@ -3,13 +3,13 @@ package br.com.melgarejo.apptemplateslim.presentation.login
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.SchedulerProvider
-import br.com.melgarejo.apptemplateslim.domain.extensions.defaultPlaceholders
 import br.com.melgarejo.apptemplateslim.domain.extensions.defaultSched
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.InvalidFieldsException
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.LoginForm
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.SignIn
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
 import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.NavData
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.defaultPlaceholders
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 
