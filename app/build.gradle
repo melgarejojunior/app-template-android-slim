@@ -107,6 +107,8 @@ dependencies {
     // easy image
     implementation 'com.github.jkwiecien:EasyImage:2.0.3'
 
+    //rx permissions
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 
     //Stetho
     implementation 'com.facebook.stetho:stetho:1.5.0'

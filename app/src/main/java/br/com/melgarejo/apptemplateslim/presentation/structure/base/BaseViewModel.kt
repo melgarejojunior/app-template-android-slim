@@ -27,7 +27,7 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
     private val errorHandler =
         ServiceLocator.getInstance()?.get(ErrorHandler::class) as ErrorHandler
 
-    private val disposables: CompositeDisposable = CompositeDisposable()
+    protected val disposables: CompositeDisposable = CompositeDisposable()
 
     fun setPlaceholder(placeholder: Placeholder) {
         placeholderLiveData.postValue(placeholder)

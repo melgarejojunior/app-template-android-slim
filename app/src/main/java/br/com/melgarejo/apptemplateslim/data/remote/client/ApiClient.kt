@@ -38,8 +38,8 @@ object ApiClient {
         return makeRequest(apiServices.signInWithFacebook(accessToken))
     }
 
-    fun signUp(fields: Map<String, String?>): Single<ApiUser> {
-        return Single.just(fields).map { buildSignUpMultipartBody(it) }
+    fun signUp(fields: HashMap<String, String?>): Single<ApiUser> {
+        return Single.just(fields).map { buildSignUpMultipartBody(it.toMap()) }
             .flatMap { makeRequest(apiServices.signUp(it)) }
     }
 
@@ -125,7 +125,7 @@ object ApiClient {
     private fun <T> justVerifyErrors(request: Single<Response<T>>): Completable {
         return request.compose(verifyResponseException())
             .compose(verifyRequestException())
-            .toCompletable()
+            .ignoreElement()
     }
 
     private fun buildSignUpMultipartBody(fields: Map<String, String?>): MultipartBody {

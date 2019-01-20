@@ -24,7 +24,7 @@ sealed class Placeholder(
         return messageVisible || buttonVisible || progressVisible
     }
 
-    fun onActionButtonClicked(any: Any?) {
+    fun onActionButtonClicked() {
         buttonAction?.invoke()
     }
 }
