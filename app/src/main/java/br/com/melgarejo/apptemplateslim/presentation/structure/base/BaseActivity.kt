@@ -3,11 +3,9 @@ package br.com.melgarejo.apptemplateslim.presentation.structure.base
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.NavData
 import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.Navigator
 import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
-import br.com.melgarejo.apptemplateslim.presentation.util.ViewUtils
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observeEvent
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.shortToast
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.showDialog
@@ -45,14 +43,6 @@ abstract class BaseActivity : AppCompatActivity() {
     private fun onNextNavigation(navData: NavData?) {
         navData?.let {
             Navigator.goTo(this, it)
-        }
-    }
-
-    fun setupToolbar(toolbar: Toolbar?, showHome: Boolean = true, title: String? = null) {
-        if (title != null) {
-            ViewUtils.setupToolbarWithTitle(this, toolbar, title, showHome)
-        } else {
-            ViewUtils.setupToolbar(this, toolbar, showHome)
         }
     }
 }

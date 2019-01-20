@@ -99,7 +99,7 @@
                     android:id="@+id/cpf_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
+                    android:maxLength="15"
                     android:hint="@string/hint_cpf"
                     android:inputType="number"
                     android:textColor="@color/colorDarkTextPrimary" />

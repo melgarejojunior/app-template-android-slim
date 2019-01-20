@@ -3,9 +3,11 @@ package br.com.melgarejo.apptemplateslim.presentation.util.extensions
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import br.com.melgarejo.apptemplateslim.R
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
@@ -85,11 +87,47 @@ private fun Activity.emitEasyImageResult(emitter: SingleEmitter<File>, requestCo
     })
 }
 
+//Toolbar
+
+fun AppCompatActivity.setupToolbar(toolbar: Toolbar?, showHome: Boolean = true, title: String? = null) {
+    if (title != null) {
+        setupToolbarWithTitle(toolbar, title, showHome)
+    } else {
+        setupToolbar(toolbar, showHome)
+    }
+}
+
+private fun AppCompatActivity.setupToolbar(toolbar: Toolbar?, showHome: Boolean) {
+    supportActionBar?.run {
+        toolbar?.let { setSupportActionBar(it) }
+        setDisplayHomeAsUpEnabled(showHome)
+        setDisplayShowHomeEnabled(showHome)
+        setDisplayShowTitleEnabled(false)
+    }
+}
+
+private fun AppCompatActivity.setupToolbarWithTitle(toolbar: Toolbar?, title: String, showHome: Boolean) {
+    supportActionBar?.run {
+        toolbar?.title = title
+        setSupportActionBar(toolbar)
+        setDisplayHomeAsUpEnabled(showHome)
+        setDisplayShowHomeEnabled(showHome)
+    }
+}
+
+//SoftKeyboard
+
+fun AppCompatActivity.hideSoftKeyboard() {
+    currentFocus?.let {
+        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+    }
+}
+
+fun AppCompatActivity.showSoftKeyboard() {
+    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+}
+
 // exceptions
 
 class NotAnEasyImageIntentException : Exception()
-
-
-fun Context.openExternalLink(url: String) {
-    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)))
-}

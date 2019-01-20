@@ -11,6 +11,7 @@ import br.com.melgarejo.apptemplateslim.presentation.structure.arch.Event
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.defaultPlaceholders
 import io.reactivex.rxkotlin.subscribeBy
+import java.io.File
 
 class SignUpViewModel(
         private val signUp: SignUp,
@@ -19,9 +20,11 @@ class SignUpViewModel(
 
     val errors: LiveData<Event<InvalidFieldsException>> get() = errorsLiveData
     val goToMain: LiveData<Boolean> get() = goToMainLiveData
+    val requestPermission: LiveData<Event<Boolean>> get() = requestPermissionLiveData
 
     private val errorsLiveData: MutableLiveData<Event<InvalidFieldsException>> = MutableLiveData()
     private val goToMainLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    private val requestPermissionLiveData: MutableLiveData<Event<Boolean>> = MutableLiveData()
 
     private val form: SignUpForm = SignUpForm()
 
@@ -53,7 +56,9 @@ class SignUpViewModel(
         form.useForm(this::submit)?.let { showFieldErrors(it) }
     }
 
-    fun onAvatarClicked() {}
+    fun onAvatarClicked() {
+        requestPermissionLiveData.value = Event(true)
+    }
 
     private fun submit(email: String,
                        password: String,
@@ -83,5 +88,13 @@ class SignUpViewModel(
         } else {
             setDialog(throwable, this::onSubmitClicked)
         }
+    }
+
+    fun onImagePickerSuccess(file: File) {
+        form.avatarPath = file.absolutePath
+    }
+
+    fun onImagePickerFailure(throwable: Throwable) {
+        setDialog(throwable)
     }
 }

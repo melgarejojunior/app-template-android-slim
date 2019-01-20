@@ -1,5 +1,6 @@
 package br.com.melgarejo.apptemplateslim.presentation.signup
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import br.com.melgarejo.apptemplateslim.R
 import br.com.melgarejo.apptemplateslim.databinding.ActivityRegisterBinding
+import br.com.melgarejo.apptemplateslim.domain.extensions.defaultSched
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.InvalidFieldsException
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseActivity
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
@@ -14,6 +16,9 @@ import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.Naviga
 import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.*
 import br.com.melgarejo.apptemplateslim.presentation.util.mask.InputMask
+import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
 
 
 class SignUpActivity : BaseActivity() {
@@ -23,6 +28,10 @@ class SignUpActivity : BaseActivity() {
 
     private lateinit var viewModel: SignUpViewModel
     private lateinit var binding: ActivityRegisterBinding
+    private lateinit var rxPermissions: RxPermissions
+    private val schedulerProvider by lazy { sl.schedulerProvider }
+
+    private var avatarDisposable: Disposable? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,13 +39,19 @@ class SignUpActivity : BaseActivity() {
         lifecycle.addObserver(viewModel)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
         setupUi()
+        rxPermissions = RxPermissions(this)
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onDestroy() {
+        avatarDisposable?.dispose()
+        super.onDestroy()
     }
 
     private fun setupUi() {
         with(binding) {
             InputMask.apply(cpfInput, CPF_MASK)
-            InputMask.apply(phoneNumberInput, PHONE_MASK_9_DIGITS, PHONE_MASK_8_DIGITS)
+            InputMask.apply(phoneNumberInput, PHONE_MASK_9_DIGITS)
             nameInput.observeChanges(viewModel::onNameChanged)
             emailInput.observeChanges(viewModel::onEmailChanged)
             cpfInput.observeChanges(viewModel::onCpfChanged)
@@ -53,7 +68,40 @@ class SignUpActivity : BaseActivity() {
         super.subscribeUi()
         viewModel.errors.observeEvent(this, ::onNextErrors)
         viewModel.goToMain.observe(this, this::onNextGoToMain)
+        viewModel.requestPermission.observeEvent(this, this::onNextPermission)
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        data?.let {
+            if (easyImageWillHandleResult(requestCode, resultCode, data)) {
+                handleResult(requestCode, resultCode, data)
+            }
+        }
+    }
+
+    private fun handleResult(requestCode: Int, resultCode: Int, data: Intent) {
+        avatarDisposable?.dispose()
+        avatarDisposable = handleEasyImageResult(requestCode, resultCode, data)
+                .defaultSched(schedulerProvider)
+                .subscribeBy(viewModel::onImagePickerFailure) { file ->
+                    viewModel.onImagePickerSuccess(file)
+                    binding.uploadImage.circleCrop(file.absolutePath, R.drawable.ic_add_photo_32dp_white)
+                }
+    }
+
+
+    private fun onNextPermission(shouldRequest: Boolean?) {
+        shouldRequest?.let { condition ->
+            if (condition) {
+                rxPermissions.request(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                ).subscribe { granted ->
+                    if (granted) startEasyImageActivity()
+                }
+            }
+        }
     }
 
     private fun onNextGoToMain(shouldGo: Boolean?) {
@@ -100,7 +148,6 @@ class SignUpActivity : BaseActivity() {
 
         private const val CPF_MASK = "###.###.###-##"
         private const val PHONE_MASK_9_DIGITS = "(##) #####-####"
-        private const val PHONE_MASK_8_DIGITS = "(##) ####-####"
         private const val FIELD_NAME = 1
         private const val FIELD_EMAIL = 2
         private const val FIELD_PHONE_NUMBER = 3

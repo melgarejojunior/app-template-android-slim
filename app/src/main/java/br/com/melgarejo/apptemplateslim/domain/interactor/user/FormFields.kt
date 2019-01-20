@@ -87,9 +87,7 @@ class FormFields {
     }
 
     companion object {
-
-        private val EMAIL_PATTERN =
-                Regex("[a-zA-Z0-9+\\.\\_\\%\\-\\+]{1,256}\\@[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+")
+        private val EMAIL_PATTERN = Regex("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}\\@[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}(\\.[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25})+")
         private val CPF_PATTERN = Regex("(\\d{3}.\\d{3}.\\d{3}-\\d{2})")
         private val PHONE_NUMBER_PATTERN = Regex("(\\(\\d{2}\\) \\d{4,5}-\\d{4})")
     }
