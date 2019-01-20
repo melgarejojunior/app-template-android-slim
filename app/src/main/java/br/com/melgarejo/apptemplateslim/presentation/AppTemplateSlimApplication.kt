@@ -1,15 +1,14 @@
 package br.com.melgarejo.apptemplateslim.presentation
 
 import android.support.multidex.MultiDexApplication
-import br.com.melgarejo.apptemplateslim.data.storage.PreferencesCache
-import br.com.melgarejo.apptemplateslim.domain.Singletons
+import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
 import com.facebook.stetho.Stetho
 
 class AppTemplateSlimApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        Singletons.cache = PreferencesCache.init(this)
+        ServiceLocator.getInstance(this)
         Stetho.initializeWithDefaults(this)
     }
 }

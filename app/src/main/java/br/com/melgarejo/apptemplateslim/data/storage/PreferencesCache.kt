@@ -2,7 +2,7 @@ package br.com.melgarejo.apptemplateslim.data.storage
 
 import android.content.Context
 import android.content.SharedPreferences
-import br.com.melgarejo.apptemplateslim.domain.Cache
+import br.com.melgarejo.apptemplateslim.domain.boundary.resources.Cache
 import com.google.gson.Gson
 import java.lang.reflect.Type
 

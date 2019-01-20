@@ -23,7 +23,6 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-
     defaultConfig {
         applicationId "br.com.melgarejo.apptemplateslim"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -77,6 +76,10 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
 
+    //rx
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'
+
     // room
     kapt "android.arch.persistence.room:compiler:1.1.1"
     api 'android.arch.persistence.room:runtime:1.1.1'
@@ -86,7 +89,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlinVersion"
 
     // Kotlin Reflection
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.2.51"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.2.71"
 
     // multidex
     implementation 'com.android.support:multidex:1.0.3'

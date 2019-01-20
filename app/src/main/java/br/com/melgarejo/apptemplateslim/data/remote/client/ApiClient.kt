@@ -22,7 +22,6 @@ import java.text.DateFormat
 
 object ApiClient {
 
-    private const val API_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
     private const val PLATFORM_CONSTANT = "android"
     private const val apiEndpoint = BuildConfig.API_ENDPOINT + BuildConfig.API_VERSION
     private lateinit var retrofit: Retrofit
@@ -31,7 +30,7 @@ object ApiClient {
 
     private val apiServices: ApiService get() = apiServiceSingleton ?: buildApiServices()
 
-    fun signIn(email: String, password: String, token: String): Single<ApiUser> {
+    fun signIn(email: String, password: String, token: String?): Single<ApiUser> {
         return makeRequest(apiServices.signIn(email, password, token, PLATFORM_CONSTANT))
     }
 

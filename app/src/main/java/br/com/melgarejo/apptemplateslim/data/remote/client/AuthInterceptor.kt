@@ -1,7 +1,7 @@
 package br.com.melgarejo.apptemplateslim.data.remote.client
 
 import br.com.melgarejo.apptemplateslim.data.storage.PreferencesCache
-import br.com.melgarejo.apptemplateslim.domain.Cache
+import br.com.melgarejo.apptemplateslim.domain.boundary.resources.Cache
 import br.com.melgarejo.apptemplateslim.domain.entity.User
 import okhttp3.Interceptor
 import okhttp3.Response

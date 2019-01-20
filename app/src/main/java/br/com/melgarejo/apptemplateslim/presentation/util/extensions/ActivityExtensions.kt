@@ -1,0 +1,95 @@
+package br.com.melgarejo.apptemplateslim.presentation.util.extensions
+
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
+import br.com.melgarejo.apptemplateslim.R
+import io.reactivex.Single
+import io.reactivex.SingleEmitter
+import pl.aprilapps.easyphotopicker.Constants
+import pl.aprilapps.easyphotopicker.DefaultCallback
+import pl.aprilapps.easyphotopicker.EasyImage
+import java.io.File
+
+
+private const val STARTED_FOR_RESULT = "STARTED_FOR_RESULT"
+
+// intents
+
+fun Activity.addStartedForResultFlag(intent: Intent): Intent {
+    return intent.putExtra(STARTED_FOR_RESULT, true)
+}
+
+fun Activity.isStartedForResult(): Boolean {
+    return intent.getBooleanExtra(STARTED_FOR_RESULT, false)
+}
+
+// appbar
+
+fun AppCompatActivity.showHomeButton() {
+    supportActionBar!!.setDisplayShowHomeEnabled(true)
+    supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+}
+
+// menus
+
+fun Activity.handleMenuItemClick(item: MenuItem): Boolean {
+    return handleHomeButtonClick(item)
+}
+
+fun Activity.handleHomeButtonClick(item: MenuItem): Boolean {
+    if (item.itemId == android.R.id.home) {
+        finish()
+        return true
+    }
+    return false
+}
+
+fun Activity.startEasyImageActivity() {
+    if (EasyImage.canDeviceHandleGallery(this)) {
+        EasyImage.openChooserWithGallery(this, this.getString(R.string.global_pick_avatar_using), 0)
+    } else {
+        EasyImage.openCamera(this, 0)
+    }
+}
+
+fun Activity.easyImageWillHandleResult(requestCode: Int, resultCode: Int, data: Intent): Boolean {
+    val chooserWithGalleryCode = Constants.RequestCodes.SOURCE_CHOOSER or Constants.RequestCodes.PICK_PICTURE_FROM_GALLERY
+    return requestCode == chooserWithGalleryCode || EasyImage.willHandleActivityResult(requestCode, resultCode, data)
+}
+
+fun Activity.handleEasyImageResult(requestCode: Int, resultCode: Int, data: Intent): Single<File> {
+    return Single.create { emitter ->
+        if (easyImageWillHandleResult(requestCode, resultCode, data)) {
+            emitEasyImageResult(emitter, requestCode, resultCode, data)
+        } else {
+            emitter.onError(NotAnEasyImageIntentException())
+        }
+    }
+}
+
+private fun Activity.emitEasyImageResult(emitter: SingleEmitter<File>, requestCode: Int, resultCode: Int, data: Intent) {
+    EasyImage.handleActivityResult(requestCode, resultCode, data, this, object : DefaultCallback() {
+        override fun onImagesPicked(imageFiles: List<File>, source: EasyImage.ImageSource, type: Int) {
+            val file = imageFiles[0]
+            file.scaleImageDown(1000, 1000)
+            emitter.onSuccess(file)
+        }
+
+        override fun onImagePickerError(e: Exception, source: EasyImage.ImageSource?, type: Int) {
+            emitter.onError(e)
+        }
+    })
+}
+
+// exceptions
+
+class NotAnEasyImageIntentException : Exception()
+
+
+fun Context.openExternalLink(url: String) {
+    startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)))
+}

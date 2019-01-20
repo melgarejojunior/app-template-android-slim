@@ -14,9 +14,10 @@ interface ApiService {
     @FormUrlEncoded
     @POST("users/sign_in")
     fun signIn(
-        @Field("email") email: String, @Field("password") password: String, @Field("token") token: String, @Field(
-            "platform"
-        ) platform: String
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("token") token: String?,
+        @Field("platform") platform: String
     ): Single<Response<ApiUser>>
 
     @FormUrlEncoded
