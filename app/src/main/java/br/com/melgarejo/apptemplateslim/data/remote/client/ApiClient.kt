@@ -125,7 +125,7 @@ object ApiClient {
     private fun <T> justVerifyErrors(request: Single<Response<T>>): Completable {
         return request.compose(verifyResponseException())
             .compose(verifyRequestException())
-            .toCompletable()
+            .ignoreElement()
     }
 
     private fun buildSignUpMultipartBody(fields: Map<String, String?>): MultipartBody {

@@ -3,10 +3,10 @@ package br.com.melgarejo.apptemplateslim.presentation.util.mask
 
 class TextMasker {
 
-    fun maskTextReversed(mask: String?, text: String?): String? {
-        if (isEmpty(text) || isEmpty(mask)) return text
+    fun maskTextReversed(mask: String?, optText: String?): String? {
+        if (isEmpty(optText) || isEmpty(mask)) return optText
         var maskedText = ""
-        text?.let { text ->
+        optText?.let { text ->
             mask?.let { mask ->
                 val maskCharacters = mask.toCharArray()
                 var textCharIndex = text.length - 1

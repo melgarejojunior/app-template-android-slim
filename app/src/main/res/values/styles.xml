@@ -16,6 +16,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+
     <style name="AppTheme.NoActionbar.TranslucentStatusBar">
         <!-- written in v21 -->
     </style>

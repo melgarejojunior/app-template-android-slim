@@ -58,12 +58,12 @@ fun Activity.startEasyImageActivity() {
     }
 }
 
-fun Activity.easyImageWillHandleResult(requestCode: Int, resultCode: Int, data: Intent): Boolean {
+fun easyImageWillHandleResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
     val chooserWithGalleryCode = Constants.RequestCodes.SOURCE_CHOOSER or Constants.RequestCodes.PICK_PICTURE_FROM_GALLERY
     return requestCode == chooserWithGalleryCode || EasyImage.willHandleActivityResult(requestCode, resultCode, data)
 }
 
-fun Activity.handleEasyImageResult(requestCode: Int, resultCode: Int, data: Intent): Single<File> {
+fun Activity.handleEasyImageResult(requestCode: Int, resultCode: Int, data: Intent?): Single<File> {
     return Single.create { emitter ->
         if (easyImageWillHandleResult(requestCode, resultCode, data)) {
             emitEasyImageResult(emitter, requestCode, resultCode, data)
@@ -73,7 +73,7 @@ fun Activity.handleEasyImageResult(requestCode: Int, resultCode: Int, data: Inte
     }
 }
 
-private fun Activity.emitEasyImageResult(emitter: SingleEmitter<File>, requestCode: Int, resultCode: Int, data: Intent) {
+private fun Activity.emitEasyImageResult(emitter: SingleEmitter<File>, requestCode: Int, resultCode: Int, data: Intent?) {
     EasyImage.handleActivityResult(requestCode, resultCode, data, this, object : DefaultCallback() {
         override fun onImagesPicked(imageFiles: List<File>, source: EasyImage.ImageSource, type: Int) {
             val file = imageFiles[0]

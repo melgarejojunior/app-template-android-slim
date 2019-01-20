@@ -78,6 +78,14 @@ class SignUpViewModel(
                 }
     }
 
+    fun onImagePickerSuccess(file: File) {
+        form.avatarPath = file.absolutePath
+    }
+
+    fun onImagePickerFailure(throwable: Throwable) {
+        setDialog(throwable)
+    }
+
     private fun showFieldErrors(errors: Throwable) {
         if (errors is InvalidFieldsException) errorsLiveData.value = Event(errors)
     }
@@ -88,13 +96,5 @@ class SignUpViewModel(
         } else {
             setDialog(throwable, this::onSubmitClicked)
         }
-    }
-
-    fun onImagePickerSuccess(file: File) {
-        form.avatarPath = file.absolutePath
-    }
-
-    fun onImagePickerFailure(throwable: Throwable) {
-        setDialog(throwable)
     }
 }

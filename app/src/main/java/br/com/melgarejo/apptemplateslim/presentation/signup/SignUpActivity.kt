@@ -16,6 +16,7 @@ import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.Naviga
 import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.*
 import br.com.melgarejo.apptemplateslim.presentation.util.mask.InputMask
+import br.com.melgarejo.apptemplateslim.presentation.util.viewmodels.Placeholder
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
@@ -35,11 +36,12 @@ class SignUpActivity : BaseActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
         viewModel = sl.get(SignUpViewModel::class) as SignUpViewModel
         lifecycle.addObserver(viewModel)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
         setupUi()
         rxPermissions = RxPermissions(this)
+        showHomeButton()
         super.onCreate(savedInstanceState)
     }
 
@@ -66,6 +68,7 @@ class SignUpActivity : BaseActivity() {
 
     override fun subscribeUi() {
         super.subscribeUi()
+        viewModel.placeholder.observe(this, ::onNextPlaceholder)
         viewModel.errors.observeEvent(this, ::onNextErrors)
         viewModel.goToMain.observe(this, this::onNextGoToMain)
         viewModel.requestPermission.observeEvent(this, this::onNextPermission)
@@ -73,14 +76,12 @@ class SignUpActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        data?.let {
-            if (easyImageWillHandleResult(requestCode, resultCode, data)) {
-                handleResult(requestCode, resultCode, data)
-            }
+        if (easyImageWillHandleResult(requestCode, resultCode, data)) {
+            handleResult(requestCode, resultCode, data)
         }
     }
 
-    private fun handleResult(requestCode: Int, resultCode: Int, data: Intent) {
+    private fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {
         avatarDisposable?.dispose()
         avatarDisposable = handleEasyImageResult(requestCode, resultCode, data)
                 .defaultSched(schedulerProvider)
@@ -90,6 +91,9 @@ class SignUpActivity : BaseActivity() {
                 }
     }
 
+    private fun onNextPlaceholder(placeholder: Placeholder?) {
+        placeholder?.let { binding.includedLoading.placeholder = it }
+    }
 
     private fun onNextPermission(shouldRequest: Boolean?) {
         shouldRequest?.let { condition ->

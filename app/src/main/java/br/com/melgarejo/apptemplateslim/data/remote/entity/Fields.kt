@@ -1,6 +1,6 @@
 package br.com.melgarejo.apptemplateslim.data.remote.entity
 
-internal class Fields : HashMap<String, String?>() {
+class Fields : HashMap<String, String?>() {
 
     fun and(key: String, value: String?): Fields {
         put(key, value)

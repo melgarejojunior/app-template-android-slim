@@ -51,7 +51,7 @@
         <activity
             android:name=".presentation.signup.SignUpActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/activity_recover_password"
+            android:label="@string/activity_sign_up"
             android:screenOrientation="portrait" />
 
     </application>
