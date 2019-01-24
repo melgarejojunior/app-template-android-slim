@@ -27,7 +27,7 @@ class LoginActivity : BaseActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = sl.get(LoginViewModel::class) as LoginViewModel
+        viewModel = sl.get(LoginViewModel::class.java)
         lifecycle.addObserver(viewModel)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         setupUi()

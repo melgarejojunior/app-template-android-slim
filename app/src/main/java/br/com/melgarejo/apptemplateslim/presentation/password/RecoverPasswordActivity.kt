@@ -23,7 +23,7 @@ class RecoverPasswordActivity : BaseActivity() {
     private lateinit var viewModel: RecoverPasswordViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = sl.get(RecoverPasswordViewModel::class) as RecoverPasswordViewModel
+        viewModel = sl.get(RecoverPasswordViewModel::class.java)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recover_password)
         binding.submitButton.setOnClickListener { viewModel.onSubmitButtonClick() }
