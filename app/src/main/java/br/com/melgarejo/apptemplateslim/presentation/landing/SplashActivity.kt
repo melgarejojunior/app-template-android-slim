@@ -15,7 +15,7 @@ class SplashActivity : BaseActivity() {
     private lateinit var viewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = sl.get(SplashViewModel::class) as SplashViewModel
+        viewModel = sl.get(SplashViewModel::class.java)
         lifecycle.addObserver(viewModel)
         super.onCreate(savedInstanceState)
     }

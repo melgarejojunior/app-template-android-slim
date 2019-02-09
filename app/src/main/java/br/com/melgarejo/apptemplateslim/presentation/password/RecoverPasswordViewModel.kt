@@ -6,6 +6,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.OnLifecycleEvent
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.SchedulerProvider
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.StringsProvider
+import br.com.melgarejo.apptemplateslim.domain.extensions.defaultPlaceholders
+import br.com.melgarejo.apptemplateslim.domain.extensions.defaultSched
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.InvalidFieldsException
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.RecoverPassword
 import br.com.melgarejo.apptemplateslim.presentation.structure.arch.Event
@@ -22,11 +24,9 @@ class RecoverPasswordViewModel(
 
 
     val showEmailFieldError: LiveData<Event<Boolean>> get() = showEmailFieldErrorLiveData
-    val showProgressIndicator: LiveData<Event<Boolean>> get() = showProgressIndicatorLiveData
     val close: LiveData<Event<Boolean>> get() = closeLiveData
 
     private val showEmailFieldErrorLiveData = MutableLiveData<Event<Boolean>>()
-    private val showProgressIndicatorLiveData = MutableLiveData<Event<Boolean>>()
     private val closeLiveData = MutableLiveData<Event<Boolean>>()
 
 
@@ -42,18 +42,12 @@ class RecoverPasswordViewModel(
     }
 
     private fun startSendPasswordRecovery() {
-        showProgressIndicatorLiveData.postValue(Event(true))
         email?.let {
             sendRecoveryDisposable = recoverPassword.execute(it)
-                    .subscribeOn(schedulerProvider.io())
-                    .observeOn(schedulerProvider.main())
+                    .defaultPlaceholders(this::setPlaceholder)
+                    .defaultSched(schedulerProvider)
                     .subscribe({ this.handleSendRecoverySuccess() }, ::handleSendRecoveryFailure)
         }
-    }
-
-    private fun hideProgressAndRemoveDisposable() {
-        showProgressIndicatorLiveData.postValue(Event(false))
-        disposePasswordRecovery()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
@@ -65,7 +59,6 @@ class RecoverPasswordViewModel(
     }
 
     private fun handleSendRecoverySuccess() {
-        hideProgressAndRemoveDisposable()
         super.setDialog(
                 DialogData.message(
                         stringsProvider.activityRecoverPassword,
@@ -82,7 +75,6 @@ class RecoverPasswordViewModel(
     }
 
     private fun handleSendRecoveryFailure(throwable: Throwable) {
-        hideProgressAndRemoveDisposable()
         if (throwable is InvalidFieldsException) {
             if (throwable.getFields().contains(InvalidFieldsException.EMAIL)) {
                 showEmailFieldErrorLiveData.postValue(Event(true))

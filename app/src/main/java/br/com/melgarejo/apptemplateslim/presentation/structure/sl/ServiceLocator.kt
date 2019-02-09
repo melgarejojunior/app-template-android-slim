@@ -1,3 +1,5 @@
+@file:Suppress("IMPLICIT_CAST_TO_ANY")
+
 package br.com.melgarejo.apptemplateslim.presentation.structure.sl
 
 import android.content.Context
@@ -21,12 +23,13 @@ import br.com.melgarejo.apptemplateslim.presentation.util.resources.AndroidLogge
 import br.com.melgarejo.apptemplateslim.presentation.util.resources.AndroidStringProvider
 import br.com.melgarejo.apptemplateslim.presentation.util.resources.DefaultSchedulerProvider
 import br.com.melgarejo.apptemplateslim.presentation.util.resources.LoginAction
-import kotlin.reflect.KClass
 
 interface ServiceLocator {
     companion object {
         private var INSTANCE: ServiceLocator? = null
         fun getInstance() = INSTANCE
+                ?: throw RuntimeException("Holy crap!! Service locator should have an instance already")
+
         fun getInstance(context: Context): ServiceLocator {
             return INSTANCE ?: DefaultServiceLocator(context).also {
                 INSTANCE = it
@@ -39,10 +42,11 @@ interface ServiceLocator {
     val strings: StringsProvider
     val schedulerProvider: SchedulerProvider
 
-    fun get(type: KClass<*>): Any
+    fun <T> get(type: Class<T>): T
+
 }
 
-open class DefaultServiceLocator(private val context: Context) : ServiceLocator {
+class DefaultServiceLocator(private val context: Context) : ServiceLocator {
 
     override val cache: Cache
         get() = singletonCache ?: PreferencesCache.init(context).also { singletonCache = it }
@@ -56,39 +60,40 @@ open class DefaultServiceLocator(private val context: Context) : ServiceLocator 
     private var singletonCache: Cache? = null
     private val loginAction by lazy { LoginAction(context, cache) }
 
-    override fun get(type: KClass<*>): Any {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T> get(type: Class<T>): T {
         return when (type) {
-            /***
-             * Utils
-             ***/
-            ErrorHandler::class -> ErrorHandler(strings, logger, loginAction)
-            StringsProvider::class -> AndroidStringProvider(context)
-            /***
-             * Repositories
-             ***/
-            UserRepository::class -> DefaultUserRepository(cache)
-            /***
-             * Interactors
-             ***/
-            GetPersistedUser::class -> GetPersistedUser()
-            SignIn::class -> SignIn(get(UserRepository::class) as UserRepository)
-            SignUp::class -> SignUp(get(UserRepository::class) as UserRepository)
-            RecoverPassword::class -> RecoverPassword(get(UserRepository::class) as UserRepository)
-            /***
-             * ViewModels
-             ***/
-            SplashViewModel::class -> SplashViewModel(get(GetPersistedUser::class) as GetPersistedUser)
-            LoginViewModel::class -> LoginViewModel(get(SignIn::class) as SignIn, schedulerProvider)
-            RecoverPasswordViewModel::class -> RecoverPasswordViewModel(
-                get(RecoverPassword::class) as RecoverPassword,
-                schedulerProvider,
-                strings
+        /***
+         * Utils
+         ***/
+            ErrorHandler::class.java -> ErrorHandler(strings, logger, loginAction)
+            StringsProvider::class.java -> AndroidStringProvider(context)
+        /***
+         * Repositories
+         ***/
+            UserRepository::class.java -> DefaultUserRepository(cache)
+        /***
+         * Interactors
+         ***/
+            GetPersistedUser::class.java -> GetPersistedUser()
+            SignIn::class.java -> SignIn(get(UserRepository::class.java))
+            SignUp::class.java -> SignUp(get(UserRepository::class.java))
+            RecoverPassword::class.java -> RecoverPassword(get(UserRepository::class.java))
+        /***
+         * ViewModels
+         ***/
+            SplashViewModel::class.java -> SplashViewModel(get(GetPersistedUser::class.java))
+            LoginViewModel::class.java -> LoginViewModel(get(SignIn::class.java), schedulerProvider)
+            RecoverPasswordViewModel::class.java -> RecoverPasswordViewModel(
+                    get(RecoverPassword::class.java),
+                    schedulerProvider,
+                    strings
             )
-            SignUpViewModel::class -> SignUpViewModel(
-                get(SignUp::class) as SignUp,
-                schedulerProvider
+            SignUpViewModel::class.java -> SignUpViewModel(
+                    get(SignUp::class.java),
+                    schedulerProvider
             )
-            else -> throw InstanceNotFoundException("$type was not found")
-        }
+            else -> throw InstanceNotFoundException("${type::class.simpleName} was not found")
+        } as T
     }
 }

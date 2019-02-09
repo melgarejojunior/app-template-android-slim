@@ -37,7 +37,7 @@ class SignUpActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
-        viewModel = sl.get(SignUpViewModel::class) as SignUpViewModel
+        viewModel = sl.get(SignUpViewModel::class.java)
         lifecycle.addObserver(viewModel)
         setupUi()
         rxPermissions = RxPermissions(this)
