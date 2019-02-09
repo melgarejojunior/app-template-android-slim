@@ -98,8 +98,8 @@ fun AppCompatActivity.setupToolbar(toolbar: Toolbar?, showHome: Boolean = true, 
 }
 
 private fun AppCompatActivity.setupToolbar(toolbar: Toolbar?, showHome: Boolean) {
+    toolbar?.let { setSupportActionBar(it) }
     supportActionBar?.run {
-        toolbar?.let { setSupportActionBar(it) }
         setDisplayHomeAsUpEnabled(showHome)
         setDisplayShowHomeEnabled(showHome)
         setDisplayShowTitleEnabled(false)
@@ -107,9 +107,9 @@ private fun AppCompatActivity.setupToolbar(toolbar: Toolbar?, showHome: Boolean)
 }
 
 private fun AppCompatActivity.setupToolbarWithTitle(toolbar: Toolbar?, title: String, showHome: Boolean) {
+    setSupportActionBar(toolbar)
     supportActionBar?.run {
         toolbar?.title = title
-        setSupportActionBar(toolbar)
         setDisplayHomeAsUpEnabled(showHome)
         setDisplayShowHomeEnabled(showHome)
     }
