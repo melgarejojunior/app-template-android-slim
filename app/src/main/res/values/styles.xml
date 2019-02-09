@@ -1,0 +1,63 @@
+<resources>
+
+    <!-- themes -->
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="buttonStyle">@style/Button</item>
+        <item name="colorControlNormal">@color/controlNormal</item>
+        <item name="android:windowBackground">@color/lightWindowBg</item>
+    </style>
+
+    <style name="AppTheme.NoActionbar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+
+    <style name="AppTheme.NoActionbar.TranslucentStatusBar">
+        <!-- written in v21 -->
+    </style>
+
+    <style name="AppTheme.NoActionbar.Splash">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <style name="AppTheme.NoActionbar.TranslucentStatusBar.Login">
+        <item name="colorControlNormal">@color/controlNormalLogin</item>
+    </style>
+
+
+    <!-- styles -->
+
+    <style name="ButtonDark" parent="Widget.AppCompat.Button">
+        <item name="android:textAppearance">@style/ButtonTextAppearance</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:minHeight">44dp</item>
+        <item name="android:background">@drawable/selector_button_accent</item>
+    </style>
+
+    <style name="Button" parent="Widget.AppCompat.Button">
+        <item name="android:textAppearance">@style/ButtonTextAppearance</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:minHeight">44dp</item>
+        <item name="android:background">@drawable/selector_button_light</item>
+    </style>
+
+    <style name="ButtonTextAppearance" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorLightTextPrimary</item>
+    </style>
+
+</resources>

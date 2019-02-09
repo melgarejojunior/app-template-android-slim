@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- colors -->
+
+    <!-- alpha values: http://stackoverflow.com/questions/15852122/hex-transparency-in-colors -->
+    <color name="blue">#4C8CDE</color>
+    <color name="blue_dark">#3E70B0</color>
+    <color name="pink">#E81A61</color>
+    <color name="white">#FFF</color>
+    <color name="white_alpha30">#4DFFFFFF</color>
+    <color name="black">#000</color>
+    <color name="black_alpha30">#4D000000</color>
+    <color name="black_alpha55">#8C000000</color>
+    <color name="facebook">#3B5998</color>
+    <color name="gray9D">#9D9D9D</color>
+    <color name="gray66">#666666</color>
+
+    <!-- attributes -->
+
+    <color name="primary">@color/blue</color>
+    <color name="primary_dark">@color/blue_dark</color>
+    <color name="accent">@color/pink</color>
+    <color name="controlNormal">@color/black_alpha30</color>
+    <color name="controlNormalLogin">@color/white</color>
+    <color name="colorLightTextPrimary">@color/white</color>
+    <color name="colorDarkTextPrimary">@color/black</color>
+    <color name="colorDarkTextSecondary">@color/black_alpha55</color>
+    <color name="colorLightHint">@color/white_alpha30</color>
+    <color name="colorLightDivider">@color/white_alpha30</color>
+    <color name="colorDarkHint">@color/black_alpha55</color>
+    <color name="colorPressedTint">@color/black_alpha30</color>
+    <color name="colorGoogle">@color/white</color>
+    <color name="avatarBg">@color/gray9D</color>
+    <color name="avatarLabel">@color/gray66</color>
+    <color name="lightWindowBg">@color/white</color>
+
+</resources>
