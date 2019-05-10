@@ -12,12 +12,7 @@ object Navigator {
 
     fun goTo(context: Context?, navData: NavData) {
         context?.let {
-            val intent = when (navData) {
-//                                    TODO(Add activity call here)
-                is NavData.RecoverPasswordNavData -> RecoverPasswordActivity.createIntent(it)
-                is NavData.SignUpNavData -> SignUpActivity.createIntent(it)
-                else -> throw RuntimeException("Don't know where should it go to. NavData ${navData.javaClass.simpleName}")
-            }
+            val intent = navData.createIntent(it)
             it.startActivity(intent)
         }
     }

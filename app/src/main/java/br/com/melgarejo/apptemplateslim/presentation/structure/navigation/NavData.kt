@@ -1,8 +1,9 @@
 package br.com.melgarejo.apptemplateslim.presentation.structure.navigation
 
+import android.content.Context
+import android.content.Intent
 
-sealed class NavData {
-    object MainNavData : NavData()
-    object RecoverPasswordNavData : NavData()
-    object SignUpNavData : NavData()
+
+interface NavData {
+    fun createIntent(context: Context): Intent
 }
