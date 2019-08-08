@@ -1,6 +1,6 @@
 package br.com.melgarejo.apptemplateslim.presentation
 
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
 import com.facebook.stetho.Stetho
 

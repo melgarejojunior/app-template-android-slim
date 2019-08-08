@@ -10,11 +10,11 @@ import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.IntentFilter
 import android.net.Uri
 import android.provider.Settings
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.LocalBroadcastManager
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.webkit.URLUtil
 import android.widget.Toast
 import br.com.melgarejo.apptemplateslim.R
@@ -54,12 +54,12 @@ fun AlertDialog.Builder.setNegativeButton(buttonText: String?, onClick: (() -> U
 
 fun Context.shortToast(@StringRes messageId: Int) = shortToast(getString(messageId))
 
-fun Context.shortToast(@StringRes message: String) =
+fun Context.shortToast(message: String) =
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
 fun Context.longToast(@StringRes messageId: Int) = longToast(getString(messageId))
 
-fun Context.longToast(@StringRes message: String) =
+fun Context.longToast(message: String) =
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
 // resources

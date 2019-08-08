@@ -1,9 +1,9 @@
 package br.com.melgarejo.apptemplateslim.presentation.password
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.OnLifecycleEvent
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.SchedulerProvider
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.StringsProvider
 import br.com.melgarejo.apptemplateslim.domain.extensions.defaultPlaceholders

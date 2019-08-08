@@ -1,7 +1,7 @@
 package br.com.melgarejo.apptemplateslim.presentation.util.resources
 
 import android.content.Context
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import br.com.melgarejo.apptemplateslim.R
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.StringsProvider
 

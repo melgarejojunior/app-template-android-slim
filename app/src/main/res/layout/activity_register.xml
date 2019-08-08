@@ -38,7 +38,7 @@
                     android:textColor="@color/avatarLabel"
                     android:textSize="14sp" />
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -54,9 +54,9 @@
                         android:inputType="textCapWords"
                         android:textColor="@color/colorDarkTextPrimary" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,9 +72,9 @@
                         android:inputType="textEmailAddress"
                         android:textColor="@color/colorDarkTextPrimary" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/phone_number_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -90,9 +90,9 @@
                         android:inputType="phone"
                         android:textColor="@color/colorDarkTextPrimary" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/cpf_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -108,9 +108,9 @@
                         android:maxLength="15"
                         android:textColor="@color/colorDarkTextPrimary" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/password_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -127,9 +127,9 @@
                         android:inputType="textPassword"
                         android:textColor="@color/colorDarkTextPrimary" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/password_confirmation_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                         android:inputType="textPassword"
                         android:textColor="@color/colorDarkTextPrimary" />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/submit_button"
