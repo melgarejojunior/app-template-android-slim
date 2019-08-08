@@ -1,7 +1,7 @@
 package br.com.melgarejo.apptemplateslim.presentation.signup
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import br.com.melgarejo.apptemplateslim.domain.boundary.resources.SchedulerProvider
 import br.com.melgarejo.apptemplateslim.domain.extensions.defaultSched
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.InvalidFieldsException

@@ -1,6 +1,6 @@
 package br.com.melgarejo.apptemplateslim.presentation.structure.base
 
-import android.arch.lifecycle.*
+import androidx.lifecycle.*
 import br.com.melgarejo.apptemplateslim.presentation.structure.arch.Event
 import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.NavData
 import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
