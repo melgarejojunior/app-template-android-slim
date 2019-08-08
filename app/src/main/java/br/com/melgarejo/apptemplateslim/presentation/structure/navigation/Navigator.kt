@@ -3,8 +3,6 @@ package br.com.melgarejo.apptemplateslim.presentation.structure.navigation
 import android.content.Context
 import br.com.melgarejo.apptemplateslim.presentation.dashboard.MainActivity
 import br.com.melgarejo.apptemplateslim.presentation.login.LoginActivity
-import br.com.melgarejo.apptemplateslim.presentation.password.RecoverPasswordActivity
-import br.com.melgarejo.apptemplateslim.presentation.signup.SignUpActivity
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.shouldClearTask
 
 

@@ -21,8 +21,8 @@ buildscript {
         // App dependencies
         daggerVersion = '2.15'
         glideVersion = '4.4.0'
-        gradleVersion = '3.4.0'
-        kotlinVersion = '1.3.31'
+        gradleVersion = '3.4.2'
+        kotlinVersion = '1.3.41'
         supportVersion = '28.0.0'
         roomVersion = '1.1.1'
         archLifecycleVersion = '1.1.1'
