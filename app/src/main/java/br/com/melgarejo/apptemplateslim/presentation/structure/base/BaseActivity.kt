@@ -2,7 +2,7 @@ package br.com.melgarejo.apptemplateslim.presentation.structure.base
 
 import android.app.Dialog
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.NavData
 import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.Navigator
 import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator

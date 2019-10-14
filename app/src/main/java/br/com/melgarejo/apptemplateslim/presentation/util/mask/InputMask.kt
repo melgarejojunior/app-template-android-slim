@@ -1,7 +1,7 @@
 package br.com.melgarejo.apptemplateslim.presentation.util.mask
 
 import android.widget.EditText
-import android.support.design.widget.TextInputLayout
+import com.google.android.material.textfield.TextInputLayout
 import java.security.InvalidParameterException
 
 

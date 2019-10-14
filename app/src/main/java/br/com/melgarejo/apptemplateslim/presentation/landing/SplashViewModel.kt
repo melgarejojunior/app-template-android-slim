@@ -1,8 +1,8 @@
 package br.com.melgarejo.apptemplateslim.presentation.landing
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.OnLifecycleEvent
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.GetPersistedUser
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.defaultMutableLiveData

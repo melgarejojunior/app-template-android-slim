@@ -3,9 +3,9 @@ package br.com.melgarejo.apptemplateslim.presentation.signup
 import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.TextInputLayout
+import com.google.android.material.textfield.TextInputLayout
 import br.com.melgarejo.apptemplateslim.R
 import br.com.melgarejo.apptemplateslim.databinding.ActivityRegisterBinding
 import br.com.melgarejo.apptemplateslim.domain.extensions.defaultSched

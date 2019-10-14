@@ -1,9 +1,9 @@
 package br.com.melgarejo.apptemplateslim.presentation.util.extensions
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import br.com.melgarejo.apptemplateslim.presentation.structure.arch.Event
 import br.com.melgarejo.apptemplateslim.presentation.structure.arch.EventObserver
 
@@ -15,7 +15,7 @@ fun <T> defaultMutableLiveData(t: T?): MutableLiveData<T> {
 }
 
 fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T?) -> Unit) {
-    observe(owner, android.arch.lifecycle.Observer { observer(it) })
+    observe(owner, androidx.lifecycle.Observer { observer(it) })
 }
 
 fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, observer: (T?) -> Unit) {
