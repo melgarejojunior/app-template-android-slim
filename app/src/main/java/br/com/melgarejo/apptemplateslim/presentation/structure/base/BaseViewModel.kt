@@ -2,6 +2,7 @@ package br.com.melgarejo.apptemplateslim.presentation.structure.base
 
 import android.arch.lifecycle.*
 import br.com.melgarejo.apptemplateslim.presentation.structure.arch.Event
+import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.InstanceMaker
 import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.NavData
 import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
 import br.com.melgarejo.apptemplateslim.presentation.util.ErrorHandler
@@ -19,7 +20,7 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
     private val dialogLiveData = MutableLiveData<Event<DialogData>>()
     private val placeholderLiveData = MutableLiveData<Placeholder>()
     private val toastLiveData = MutableLiveData<Event<String>>()
-    private val errorHandler = ServiceLocator.getInstance().get(ErrorHandler::class.java)
+    private val errorHandler: ErrorHandler = InstanceMaker.get()
 
     protected val disposables: CompositeDisposable = CompositeDisposable()
 

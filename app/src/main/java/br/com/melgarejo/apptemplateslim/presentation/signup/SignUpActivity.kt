@@ -8,13 +8,23 @@ import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import br.com.melgarejo.apptemplateslim.R
 import br.com.melgarejo.apptemplateslim.databinding.ActivityRegisterBinding
+import br.com.melgarejo.apptemplateslim.domain.boundary.resources.SchedulerProvider
 import br.com.melgarejo.apptemplateslim.domain.extensions.defaultSched
 import br.com.melgarejo.apptemplateslim.domain.interactor.user.InvalidFieldsException
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseActivity
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
+import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.InstanceMaker
 import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.Navigator
-import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
-import br.com.melgarejo.apptemplateslim.presentation.util.extensions.*
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.circleCrop
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.easyImageWillHandleResult
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.handleEasyImageResult
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observe
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observeChanges
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observeEvent
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.setError
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.setOnClickListener
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.showHomeButton
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.startEasyImageActivity
 import br.com.melgarejo.apptemplateslim.presentation.util.mask.InputMask
 import br.com.melgarejo.apptemplateslim.presentation.util.viewmodels.Placeholder
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -24,20 +34,19 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class SignUpActivity : BaseActivity() {
 
-    override val sl: ServiceLocator get() = ServiceLocator.getInstance(this.applicationContext)
     override val baseViewModel: BaseViewModel get() = viewModel
 
     private lateinit var viewModel: SignUpViewModel
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var rxPermissions: RxPermissions
-    private val schedulerProvider by lazy { sl.schedulerProvider }
+    private val schedulerProvider by lazy { InstanceMaker.get<SchedulerProvider>() }
 
     private var avatarDisposable: Disposable? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
-        viewModel = sl.get(SignUpViewModel::class.java)
+        viewModel = InstanceMaker.get()
         lifecycle.addObserver(viewModel)
         setupUi()
         rxPermissions = RxPermissions(this)
@@ -84,11 +93,11 @@ class SignUpActivity : BaseActivity() {
     private fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {
         avatarDisposable?.dispose()
         avatarDisposable = handleEasyImageResult(requestCode, resultCode, data)
-                .defaultSched(schedulerProvider)
-                .subscribeBy(viewModel::onImagePickerFailure) { file ->
-                    viewModel.onImagePickerSuccess(file)
-                    binding.uploadImage.circleCrop(file.absolutePath, R.drawable.ic_add_photo_32dp_white)
-                }
+            .defaultSched(schedulerProvider)
+            .subscribeBy(viewModel::onImagePickerFailure) { file ->
+                viewModel.onImagePickerSuccess(file)
+                binding.uploadImage.circleCrop(file.absolutePath, R.drawable.ic_add_photo_32dp_white)
+            }
     }
 
     private fun onNextPlaceholder(placeholder: Placeholder?) {
@@ -99,8 +108,8 @@ class SignUpActivity : BaseActivity() {
         shouldRequest?.let { condition ->
             if (condition) {
                 rxPermissions.request(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
                 ).subscribe { granted ->
                     if (granted) startEasyImageActivity()
                 }

@@ -3,19 +3,19 @@ package br.com.melgarejo.apptemplateslim.presentation.landing
 import android.os.Bundle
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseActivity
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
+import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.InstanceMaker
 import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.Navigator
 import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observe
 
 class SplashActivity : BaseActivity() {
 
-    override val sl: ServiceLocator get() = ServiceLocator.getInstance(this.applicationContext)
     override val baseViewModel: BaseViewModel get() = viewModel
 
     private lateinit var viewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = sl.get(SplashViewModel::class.java)
+        viewModel = InstanceMaker.get()
         lifecycle.addObserver(viewModel)
         super.onCreate(savedInstanceState)
     }

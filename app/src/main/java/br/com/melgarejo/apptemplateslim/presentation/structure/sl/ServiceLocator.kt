@@ -41,12 +41,13 @@ interface ServiceLocator {
     val logger: Logger
     val strings: StringsProvider
     val schedulerProvider: SchedulerProvider
+    val loginAction: LoginAction
+    val context: Context
 
-    fun <T> get(type: Class<T>): T
 
 }
 
-class DefaultServiceLocator(private val context: Context) : ServiceLocator {
+class DefaultServiceLocator(override val context: Context) : ServiceLocator {
 
     override val cache: Cache
         get() = singletonCache ?: PreferencesCache.init(context).also { singletonCache = it }
@@ -58,42 +59,6 @@ class DefaultServiceLocator(private val context: Context) : ServiceLocator {
     override val schedulerProvider: SchedulerProvider by lazy { DefaultSchedulerProvider() }
 
     private var singletonCache: Cache? = null
-    private val loginAction by lazy { LoginAction(context, cache) }
+    override val loginAction by lazy { LoginAction(context, cache) }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun <T> get(type: Class<T>): T {
-        return when (type) {
-        /***
-         * Utils
-         ***/
-            ErrorHandler::class.java -> ErrorHandler(strings, logger, loginAction)
-            StringsProvider::class.java -> AndroidStringProvider(context)
-        /***
-         * Repositories
-         ***/
-            UserRepository::class.java -> DefaultUserRepository(cache)
-        /***
-         * Interactors
-         ***/
-            GetPersistedUser::class.java -> GetPersistedUser()
-            SignIn::class.java -> SignIn(get(UserRepository::class.java))
-            SignUp::class.java -> SignUp(get(UserRepository::class.java))
-            RecoverPassword::class.java -> RecoverPassword(get(UserRepository::class.java))
-        /***
-         * ViewModels
-         ***/
-            SplashViewModel::class.java -> SplashViewModel(get(GetPersistedUser::class.java))
-            LoginViewModel::class.java -> LoginViewModel(get(SignIn::class.java), schedulerProvider)
-            RecoverPasswordViewModel::class.java -> RecoverPasswordViewModel(
-                    get(RecoverPassword::class.java),
-                    schedulerProvider,
-                    strings
-            )
-            SignUpViewModel::class.java -> SignUpViewModel(
-                    get(SignUp::class.java),
-                    schedulerProvider
-            )
-            else -> throw InstanceNotFoundException("${type::class.simpleName} was not found")
-        } as T
-    }
 }

@@ -9,8 +9,8 @@ import br.com.melgarejo.apptemplateslim.databinding.ActivityLoginBinding
 import br.com.melgarejo.apptemplateslim.domain.extensions.then
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseActivity
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
+import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.InstanceMaker
 import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.Navigator
-import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observe
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observeChanges
 import br.com.melgarejo.apptemplateslim.presentation.util.extensions.setError
@@ -19,7 +19,6 @@ import br.com.melgarejo.apptemplateslim.presentation.util.extensions.setOnClickL
 class LoginActivity : BaseActivity() {
 
 
-    override val sl: ServiceLocator get() = ServiceLocator.getInstance(this.applicationContext)
     override val baseViewModel: BaseViewModel get() = viewModel
 
     private lateinit var viewModel: LoginViewModel
@@ -27,7 +26,7 @@ class LoginActivity : BaseActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = sl.get(LoginViewModel::class.java)
+        viewModel = InstanceMaker.get()
         lifecycle.addObserver(viewModel)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         setupUi()

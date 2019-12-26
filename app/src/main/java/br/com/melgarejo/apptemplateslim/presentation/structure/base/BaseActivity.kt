@@ -13,7 +13,6 @@ import br.com.melgarejo.apptemplateslim.presentation.util.viewmodels.DialogData
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    abstract val sl: ServiceLocator
     abstract val baseViewModel: BaseViewModel
 
     private var dialog: Dialog? = null

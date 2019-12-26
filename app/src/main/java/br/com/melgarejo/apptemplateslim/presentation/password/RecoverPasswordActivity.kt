@@ -10,13 +10,17 @@ import br.com.melgarejo.apptemplateslim.R
 import br.com.melgarejo.apptemplateslim.databinding.ActivityRecoverPasswordBinding
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseActivity
 import br.com.melgarejo.apptemplateslim.presentation.structure.base.BaseViewModel
-import br.com.melgarejo.apptemplateslim.presentation.structure.sl.ServiceLocator
-import br.com.melgarejo.apptemplateslim.presentation.util.extensions.*
+import br.com.melgarejo.apptemplateslim.presentation.structure.navigation.InstanceMaker
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.handleMenuItemClick
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observe
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observeChanges
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.observeEvent
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.setError
+import br.com.melgarejo.apptemplateslim.presentation.util.extensions.showHomeButton
 import br.com.melgarejo.apptemplateslim.presentation.util.viewmodels.Placeholder
 
 
 class RecoverPasswordActivity : BaseActivity() {
-    override val sl: ServiceLocator get() = ServiceLocator.getInstance(this.applicationContext)
     override val baseViewModel: BaseViewModel get() = viewModel
 
 
@@ -24,7 +28,7 @@ class RecoverPasswordActivity : BaseActivity() {
     private lateinit var viewModel: RecoverPasswordViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = sl.get(RecoverPasswordViewModel::class.java)
+        viewModel = InstanceMaker.get()
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recover_password)
         binding.submitButton.setOnClickListener { viewModel.onSubmitButtonClick() }
